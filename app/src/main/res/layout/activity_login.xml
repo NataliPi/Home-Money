@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Эл. почта"
+        style="@style/standard_margin"
+        android:layout_marginTop="120dp"
+        android:textSize="@dimen/text_small"
+        android:inputType="textEmailAddress"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Пароль"
+        style="@style/standard_margin"
+        android:textSize="@dimen/text_small"
+        android:inputType="textPassword"
+        />
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/standard_margin"
+        android:textSize="@dimen/text_small"
+        android:text="@string/forget"
+        android:linksClickable="false"
+        android:autoLink="all"
+        android:layout_marginTop="30dp"
+        android:padding="5dp"
+        android:textColor="@color/lightViolet"
+        />
+    <Button
+        android:layout_marginTop="40dp"
+        style="@style/authButton"
+        android:text="Войти"
+        />
+</LinearLayout>

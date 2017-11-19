@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Home-Money</string>
+    <string name="enter">Вход</string>
+    <string name="authorization">Авторизация</string>
+    <string name="registration">Регистрация</string>
+    <string name="forget">Забыли пароль?</string>
+    <string name="confidentialText">Нажав кнопку "Регистрация", Вы автоматически принимаете </string>
 </resources>

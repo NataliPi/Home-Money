@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainHolder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/navigationButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/standard_margin"
+
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/arrow"/>
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_toLeftOf="@+id/optionButton"
+            android:layout_toRightOf="@+id/navigationButton"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:id="@+id/optionButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <TextView
+        style="@style/standard_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Авторизация"
+        android:textColor="@color/darkViolet"
+        android:textSize="@dimen/text_big"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightViolet"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/highlitedText"
+            style="@style/standard_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_big" />
+    </LinearLayout>
+
+</LinearLayout>
