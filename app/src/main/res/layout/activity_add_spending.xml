@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="2">
+    <RelativeLayout
+        android:layout_width="1dp"
+        android:layout_height="200dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/spend_photo"
+            android:layout_centerInParent="true"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/photo" />
+    </RelativeLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <EditText
+            style="@style/standard_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:hint="@string/spending_name"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/text_small" />
+
+        <EditText
+            style="@style/standard_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sum"
+            android:inputType="textPassword"
+            android:textSize="@dimen/text_small" />
+
+        <EditText
+            style="@style/standard_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:inputType="textPassword"
+            android:textSize="@dimen/text_small" />
+
+    </LinearLayout>
+</LinearLayout>
+    <TextView android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/yellow"
+        android:paddingLeft="@dimen/standard_margin"
+        android:paddingTop="10dp"
+        android:text="@string/detail_info"
+        />
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/standard_margin"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginLeft="@dimen/standard_margin"
+        android:orientation="vertical"
+        android:id="@+id/componentsHolder"/>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:id="@+id/addComponent">
+        <ImageView android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:srcCompat="@drawable/plus"
+            android:layout_marginLeft="@dimen/standard_margin"/>
+
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_component"
+            android:textSize="@dimen/text_small">
+        </TextView>
+
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darkViolet"
+        android:layout_marginLeft="@dimen/standard_margin"
+        android:layout_marginRight="@dimen/standard_margin"/>
+</LinearLayout>
+</LinearLayout>
+

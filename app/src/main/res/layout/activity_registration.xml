@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:hint="Имя"
         style="@style/standard_margin"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:textSize="@dimen/text_small"
         android:inputType="text"
         />
@@ -37,19 +37,21 @@
         android:inputType="textPassword"
         />
     <TextView
-        android:id="@+id/forgotPassword"
+        android:id="@+id/privacy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/standard_margin"
-        android:textSize="@dimen/text_small"
+        android:textSize="12sp"
         android:text="@string/confidentialText"
-        android:linksClickable="false"
+        android:linksClickable="true"
+        android:clickable="true"
         android:autoLink="all"
         android:layout_marginTop="30dp"
         android:padding="5dp"
         android:textColor="@color/lightGray"
         />
     <Button
+        android:id="@+id/registration"
         android:layout_marginTop="40dp"
         style="@style/authButton"
         android:text="@string/registration"

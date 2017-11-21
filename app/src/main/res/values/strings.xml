@@ -4,5 +4,27 @@
     <string name="authorization">Авторизация</string>
     <string name="registration">Регистрация</string>
     <string name="forget">Забыли пароль?</string>
-    <string name="confidentialText">Нажав кнопку "Регистрация", Вы автоматически принимаете </string>
+    <string name="confidentialText">Нажав кнопку \"Регистрация\", Вы автоматически принимаете <a href="https://github.com/NataliPi/Home-Money/blob/master/PrivacyPolicy.md">условия конфиденциальности</a></string>
+    <string name="privacyPolicyLink">https://github.com/NataliPi/Home-Money/blob/master/PrivacyPolicy.md</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="last_spendings">Последние затраты</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="planned_spendings">Запланированные затраты</string>
+    <string name="budget">Бюджет</string>
+    <string name="statistics">Статистика</string>
+    <string name="search">Поиск</string>
+    <string name="manage_accounts">Управление аккаунтами</string>
+    <string name="settings">Настройки</string>
+    <string name="spending_name">Название</string>
+    <string name="sum">Сумма</string>
+    <string name="date">Дата</string>
+    <string name="detail_info">Детальная информация</string>
+    <string name="add_component">Добавить компонент счёта</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
 </resources>

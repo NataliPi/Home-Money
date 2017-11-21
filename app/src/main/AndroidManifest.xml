@@ -19,7 +19,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".registration.RegistrationActivity"></activity>
+        <activity android:name=".registration.RegistrationActivity" />
+        <activity
+            android:name=".main.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AddSpendingActivity"></activity>
     </application>
 
 </manifest>
