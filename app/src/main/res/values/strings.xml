@@ -21,10 +21,26 @@
     <string name="date">Дата</string>
     <string name="detail_info">Детальная информация</string>
     <string name="add_component">Добавить компонент счёта</string>
+    <string name="add_spending">Добавление нового счета</string>
+    <string name="category">Категория</string>
+    <string name="pets">Питомцы</string>
+    <string name="home">Дом</string>
+    <string name="food">Еда</string>
+    <string name="transport">Транспорт</string>
+    <string name="sport">Спорт</string>
+    <string name="health">Здоровье</string>
+    <string name="beauty">Красота</string>
+    <string name="shopping">Шопинг</string>
+    <string name="entertaiment">Развлечения</string>
+    <string name="travel">Путешествия</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="chooseCategory">Выбор категории</string>
+    <string name="baseData">Основные данные</string>
+    <string name="price">Цена</string>
+    <string name="currency">Ввалюта</string>
 
 </resources>

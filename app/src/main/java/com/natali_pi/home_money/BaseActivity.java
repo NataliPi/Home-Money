@@ -76,4 +76,13 @@ protected void hideHighlight(){
         TextView highlitedText = (TextView) findViewById(R.id.highlitedText);
         highlitedText.setText(text);
     }
+    protected BackOnPress getBackAction(){
+        return new BackOnPress();
+    }
+    protected class BackOnPress implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    }
 }

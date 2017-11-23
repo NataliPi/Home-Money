@@ -10,8 +10,17 @@ import java.util.Date;
 public class Spending {
     private String name;
     private String buyerId;
+    private String id;
     private String category;
     private Date date;
     private String photo;
     private ArrayList<SpendingComponent> components;
+
+    public Money getSum (){
+        Money result = new Money();
+        for (int i=0; i<=components.size(); i++){
+            result = Money.sum(result,components.get(i).getPrice());
+        }
+        return result;
+    }
 }

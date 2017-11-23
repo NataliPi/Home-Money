@@ -2,25 +2,16 @@ package com.natali_pi.home_money.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.natali_pi.home_money.AddSpendingActivity;
+import com.natali_pi.home_money.add_spending.AddSpendingActivity;
 import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.R;
-import com.natali_pi.home_money.utils.Currency;
 
 public class MainActivity extends BaseActivity {
 
