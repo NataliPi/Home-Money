@@ -19,7 +19,9 @@ import android.widget.TextView;
  */
 
 public class BaseActivity extends AppCompatActivity {
-protected void hideHighlight(){
+    private DrawerLayout drawer;
+
+    protected void hideHighlight(){
     findViewById(R.id.highlight).setVisibility(View.GONE);
 }
 
@@ -46,13 +48,13 @@ protected void hideHighlight(){
     }
 
     public void setupSideDrawer (){
-        final DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        if (drawer != null){
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        if (getDrawer() != null){
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             findViewById(R.id.navigationButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    drawer.openDrawer(Gravity.LEFT);
+                    getDrawer().openDrawer(Gravity.LEFT);
                 }
             });
         }
@@ -62,7 +64,13 @@ protected void hideHighlight(){
         setContentView(R.layout.main_holder_layout);
         LinearLayout mainHolder = (LinearLayout) findViewById(R.id.mainHolder);
         mainHolder.addView(getLayoutInflater().inflate(layoutId, mainHolder, false));
-        ((DrawerLayout)findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+    protected DrawerLayout getDrawer(){
+        if (drawer == null) {
+            drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        }
+            return drawer;
     }
     protected void setupFont(TextView view){
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/YuGothB.ttc");

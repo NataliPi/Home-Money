@@ -6,9 +6,11 @@ import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.natali_pi.home_money.SettingActivity;
 import com.natali_pi.home_money.add_spending.AddSpendingActivity;
 import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.R;
@@ -33,6 +35,40 @@ public class MainActivity extends BaseActivity {
         hideHighlight();
         setupScroller();
 
+    }
+
+    @Override
+    public void setupSideDrawer() {
+        super.setupSideDrawer();
+    ImageView imageView = (ImageView) getDrawer().findViewById(R.id.settings);
+    imageView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
+        }
+    });
+
+        final TextView lastSpendings = (TextView) getDrawer().findViewById(R.id.last_spendings);
+        lastSpendings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastSpendings.setBackgroundResource(R.color.yellow);
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        clearMenu();
+    }
+
+    private void clearMenu(){
+        final TextView lastSpendings = (TextView) getDrawer().findViewById(R.id.last_spendings);
+        lastSpendings.setBackgroundResource(R.color.white);
     }
 
     private void setupScroller() {

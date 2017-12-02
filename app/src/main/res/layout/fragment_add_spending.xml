@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:hint="@string/spending_name"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:textSize="@dimen/text_small" />
 
             <EditText
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sum"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textSize="@dimen/text_small" />
 
             <EditText
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/date"
-                android:inputType="textPassword"
+                android:inputType="date"
                 android:textSize="@dimen/text_small" />
 
         </LinearLayout>

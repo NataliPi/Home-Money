@@ -48,7 +48,7 @@ public class AddSpendingActivity extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new SpendingFragment(), getString(R.string.chooseCategory));
+        adapter.addFragment(new CategoryFragment(), getString(R.string.chooseCategory));
         adapter.addFragment(new SpendingFragment(), getString(R.string.baseData));
         viewPager.setAdapter(adapter);
 

@@ -12,7 +12,7 @@
         android:weightSum="2">
         <RelativeLayout
             android:layout_width="1dp"
-            android:layout_height="200dp"
+            android:layout_height="170dp"
             android:layout_weight="1">
 
             <ImageView
@@ -34,25 +34,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:hint="@string/spending_name"
-                android:inputType="textEmailAddress"
+                android:hint="@string/name"
+                android:inputType="text"
                 android:textSize="@dimen/text_small" />
 
             <EditText
                 style="@style/standard_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sum"
-                android:inputType="textPassword"
+                android:hint="@string/surname"
+                android:inputType="text"
                 android:textSize="@dimen/text_small" />
 
-            <EditText
-                style="@style/standard_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/date"
-                android:inputType="textPassword"
-                android:textSize="@dimen/text_small" />
+
 
         </LinearLayout>
     </LinearLayout>
@@ -61,47 +55,93 @@
         android:background="@color/yellow"
         android:paddingLeft="@dimen/standard_margin"
         android:paddingTop="10dp"
-        android:text="@string/detail_info"
+        android:text="@string/profile_setting"
         />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/standard_margin"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <LinearLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:id="@+id/addComponent">
-                <ImageView android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:srcCompat="@drawable/plus"
-                    android:layout_marginLeft="@dimen/standard_margin"/>
 
-                <TextView android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/add_component"
-                    android:textSize="@dimen/text_small">
-                </TextView>
+                    android:text="@string/currency"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/darkViolet"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/uah"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/lightGray"
+                    android:layout_marginLeft="16dp"
+                    />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notification"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/darkViolet"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/textView" />
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/textView"
+                    android:layout_marginRight="16dp"
+                    />
+
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/premium"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/darkViolet"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"/>
 
             </LinearLayout>
-            <View android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/darkViolet"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"/>
-            <ListView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="60dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/darkViolet"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"/>
 
-                android:id="@+id/componentsHolder"
-                />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
