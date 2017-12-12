@@ -14,13 +14,41 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.enums.EPickType;
+
 /**
  * Created by Natali-Pi on 18.11.2017.
  */
 
 public class BaseActivity extends AppCompatActivity {
     private DrawerLayout drawer;
-
+    PickSetup pickSetup = null;
+    protected PickSetup getPickSetup(){
+        if (pickSetup == null){
+            pickSetup = new PickSetup()
+                    .setTitle(getString(R.string.download_image))
+                    .setTitleColor(getResources().getColor(R.color.darkViolet))
+                    .setBackgroundColor(getResources().getColor(R.color.white))
+                    //.setProgressText("progresstext")
+                    .setCancelText(getString(R.string.cancel))
+                    .setCancelTextColor(getResources().getColor(R.color.darkViolet))
+                    //.setButtonTextColor(yourColor)
+                    //.setDimAmount(yourFloat)
+                    //.setFlip(true)
+                    //.setMaxSize(500)
+                    .setPickTypes(EPickType.GALLERY, EPickType.CAMERA)
+                    //.setCameraButtonText(yourText)
+                    //.setGalleryButtonText(yourText)
+                    .setIconGravity(Gravity.LEFT)
+                    //.setButtonOrientation(LinearLayoutCompat.VERTICAL)
+                    .setSystemDialog(false)
+                    //.setGalleryIcon(yourIcon)
+                    //.setCameraIcon(yourIcon)
+                        ;
+        }
+        return pickSetup;
+    }
     protected void hideHighlight(){
     findViewById(R.id.highlight).setVisibility(View.GONE);
 }
@@ -87,6 +115,7 @@ public class BaseActivity extends AppCompatActivity {
     protected BackOnPress getBackAction(){
         return new BackOnPress();
     }
+
     protected class BackOnPress implements View.OnClickListener{
         @Override
         public void onClick(View v) {

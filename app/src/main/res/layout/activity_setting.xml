@@ -12,14 +12,14 @@
         android:weightSum="2">
         <RelativeLayout
             android:layout_width="1dp"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/spend_photo"
                 android:layout_centerInParent="true"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="1300dp"
+                android:layout_height="130dp"
                 app:srcCompat="@drawable/photo" />
         </RelativeLayout>
 
@@ -33,7 +33,7 @@
                 style="@style/standard_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="35dp"
                 android:hint="@string/name"
                 android:inputType="text"
                 android:textSize="@dimen/text_small" />
@@ -111,8 +111,29 @@
                     android:layout_alignTop="@+id/textView"
                     android:layout_marginRight="16dp"
                     />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/passsett"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/darkViolet"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/password_setting" />
 
-
+                <Switch
+                    android:id="@+id/switch2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/password_setting"
+                    android:layout_marginRight="16dp"
+                    />
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"

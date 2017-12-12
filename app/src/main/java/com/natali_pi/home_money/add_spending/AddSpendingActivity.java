@@ -5,12 +5,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.natali_pi.home_money.BaseActivity;
@@ -25,7 +21,8 @@ public class AddSpendingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setBaseContentView(R.layout.activity_add_spending);
+        setBaseContentView(R.layout.activity_sliding);
+
         setupToolbar(R.drawable.arrow, "");
         setNavigationButtonListener(getBackAction());
         setupOption(R.drawable.plus);

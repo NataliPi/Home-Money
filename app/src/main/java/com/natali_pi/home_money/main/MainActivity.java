@@ -10,12 +10,27 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.natali_pi.home_money.SettingActivity;
+import com.natali_pi.home_money.DraweredActivity;
+import com.natali_pi.home_money.budget.BudgetActivity;
+import com.natali_pi.home_money.models.Spending;
+import com.natali_pi.home_money.planned_spending.PlannedSpendingActivity;
+import com.natali_pi.home_money.settings.SettingActivity;
 import com.natali_pi.home_money.add_spending.AddSpendingActivity;
 import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.family_settings.FamilySettingActivity;
+import com.natali_pi.home_money.search.Search;
+import com.natali_pi.home_money.statistic.StatisticActivity;
+import com.natali_pi.home_money.utils.DataBase;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
-public class MainActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends DraweredActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,48 +52,24 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @Override
-    public void setupSideDrawer() {
-        super.setupSideDrawer();
-    ImageView imageView = (ImageView) getDrawer().findViewById(R.id.settings);
-    imageView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-            startActivity(intent);
-        }
-    });
 
-        final TextView lastSpendings = (TextView) getDrawer().findViewById(R.id.last_spendings);
-        lastSpendings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lastSpendings.setBackgroundResource(R.color.yellow);
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        clearMenu();
-    }
 
-    private void clearMenu(){
-        final TextView lastSpendings = (TextView) getDrawer().findViewById(R.id.last_spendings);
-        lastSpendings.setBackgroundResource(R.color.white);
-    }
+
+
 
     private void setupScroller() {
         final TextView dateLabel = (TextView)findViewById(R.id.dateLabel);
         final TextView dateLabel3 = (TextView)findViewById(R.id.dateText3);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        DaySpendingsFragment daySpendingsFragment = new DaySpendingsFragment();
+        daySpendingsFragment.setSpendings(DataBase.getInstance().getFamily().getSpended());
+        getFragmentManager().beginTransaction().add(R.id.list, daySpendingsFragment).commit();
+
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-                int[] pos3 = new int[2];
+               /* int[] pos3 = new int[2];
                 dateLabel3.getLocationOnScreen(pos3);
                 int[] pos = new int[2];
                 dateLabel.getLocationOnScreen(pos);
@@ -86,20 +77,11 @@ public class MainActivity extends BaseActivity {
                 dateLabel.setText(dateLabel3.getText());
             } else if(pos[1] < pos3[1]){
                 dateLabel.setText("ОктябЫрь");
-            }
+            }*/
             }
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
 
-    }
 
 }

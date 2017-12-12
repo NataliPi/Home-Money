@@ -29,4 +29,13 @@ dependencies {
     compile 'com.android.support:support-v13:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.jrvansuita:PickImage:2.1.5'
+    compile 'com.jjoe64:graphview:4.2.1'
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
+    compile 'it.auron:mecard-parser:1.1.0'
+    compile 'com.github.kenglxn.QRGen:android:2.3.0'
+
+
+
+
 }

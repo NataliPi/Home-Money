@@ -29,6 +29,10 @@
         <item name="android:layout_marginRight">@dimen/standard_margin</item>
     </style>
 
+    <style name="dialog_title_style">
+    <item name="android:textSize">@dimen/text_medium</item>
+    <item name="android:textColor">@color/darkViolet</item>
+</style>
     <style name="dateLabel">
         <item name="android:background">@color/lightViolet</item>
         <item name="android:layout_width">match_parent</item>

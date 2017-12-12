@@ -7,10 +7,14 @@ import com.natali_pi.home_money.utils.Currency;
  */
 
 public class Money {
-    private int coins;
-    private int bill;
-    private Currency currency;
+    private int coins = 0;
+    private int bill = 0;
+    private Currency currency = Currency.USD;
     private float course;
+
+    public Money(int i) {
+    bill = i;
+    }
 
     public Currency getCurrency(){
         return currency;
@@ -37,7 +41,23 @@ public class Money {
         }
         return sum;
     }
+    public static Money substract(Money first, Money second){
+        Money result = new Money();
+        result.bill = first.bill-second.bill;
+        result.coins = first.coins-second.coins;
+        if (result.coins <0){
+            result.coins=result.coins+100;
+            result.bill=result.bill-1;
+        }
+        return result;
+    }
 
+    public static int differance(Money first, Money second){
+
+        return (second.bill*100)/first.bill;
+
+
+    }
     public Boolean lessThen(Money limit){
         if (this.bill<limit.bill) {
             return true;
@@ -48,5 +68,9 @@ public class Money {
                 return false;
             }
         }
+    }
+
+    public Money divideBy(float v) {
+    return new Money(bill / 3) ;
     }
 }

@@ -12,7 +12,7 @@
         android:weightSum="2">
         <RelativeLayout
             android:layout_width="1dp"
-            android:layout_height="200dp"
+            android:layout_height="170dp"
             android:layout_weight="1">
 
             <ImageView
@@ -27,13 +27,14 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <EditText
                 style="@style/standard_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="25dp"
                 android:hint="@string/spending_name"
                 android:inputType="text"
                 android:textSize="@dimen/text_small" />
@@ -43,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sum"
-                android:inputType="text"
+                android:inputType="number"
                 android:textSize="@dimen/text_small" />
 
             <EditText
