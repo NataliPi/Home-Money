@@ -7,13 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.natali_pi.home_money.utils.OneButtonDialog;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.enums.EPickType;
 
@@ -114,6 +117,27 @@ public class BaseActivity extends AppCompatActivity {
     }
     protected BackOnPress getBackAction(){
         return new BackOnPress();
+    }
+
+    public void showMessage(String text){
+        new OneButtonDialog(this, OneButtonDialog.DIALOG_TYPE.MESSAGE_ONLY)
+                .setMessage(text)
+                //.setCustomTextStyle(R.style.standard_margin)
+                .setCustomTextStyle(R.style.dialog_title_style)
+                .build();
+    }
+    public void onError() {
+        onFinishLoading();
+    }
+
+    public void onFinishLoading() {
+        ProgressBar progress = (ProgressBar) findViewById(R.id.progress);
+        progress.setVisibility(View.GONE);
+    }
+
+    public void onStartLoading() {
+        ProgressBar progress = (ProgressBar) findViewById(R.id.progress);
+        progress.setVisibility(View.VISIBLE);
     }
 
     protected class BackOnPress implements View.OnClickListener{

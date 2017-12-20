@@ -12,4 +12,20 @@ public class Human {
     private String id;
     private String familyName;
     private String familyId;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
+    }
 }

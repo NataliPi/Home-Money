@@ -1,11 +1,15 @@
 package com.natali_pi.home_money.add_spending;
 
+import android.text.InputType;
 import android.view.View;
 import android.widget.ListView;
 
 import com.natali_pi.home_money.BaseFragment;
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.login.LoginActivity;
 import com.natali_pi.home_money.models.Category;
+import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.OneButtonDialog;
 
 import java.util.ArrayList;
 
@@ -14,6 +18,12 @@ import java.util.ArrayList;
  */
 
 public class CategoryFragment extends BaseFragment {
+    ListView list;
+    SpendingPresenter presenter;
+
+    public void setPresenter(SpendingPresenter presenter) {
+        this.presenter = presenter;
+    }
 
     @Override
     protected void resolveDaggerDependencies() {
@@ -27,20 +37,26 @@ public class CategoryFragment extends BaseFragment {
 
     @Override
     protected View onCreateView(View root) {
-        ListView list = (ListView) root.findViewById(R.id.list);
-        ArrayList<Category> categories = new ArrayList<>();
-        categories.add(new Category("beauty"));
-        categories.add(new Category("education"));
-        categories.add(new Category("entertainment"));
-        categories.add(new Category("food"));
-        categories.add(new Category("health"));
-        categories.add(new Category("home"));
-        categories.add(new Category("pets"));
-        categories.add(new Category("shopping"));
-        categories.add(new Category("sport"));
-        categories.add(new Category("transport"));
-        categories.add(new Category("travel"));
-        list.setAdapter(new CategoryAdapter(categories, getActivity()));
+        list = (ListView) root.findViewById(R.id.list);
+        ArrayList<Category> categories = DataBase.getInstance().getFamily().getCategories();
+            setAdapter(categories);
         return root;
+    }
+
+    public void setAdapter(ArrayList<Category> categories) {
+        list.setAdapter(new CategoryAdapter(categories, getActivity(), (category) -> {
+            if(category !=  null) {
+                presenter.setCategory(category);
+            } else {
+                new OneButtonDialog(getActivity(), OneButtonDialog.DIALOG_TYPE.INPUT_ONLY)
+                        .setTitle("Добавление категории")
+                        //.setMessage(getString(R.string.forget_email_message))
+                        .setEditTextHint("Введите название")
+                        .setOkListener((categoryName)->{
+                            presenter.setCategory(new Category(categoryName));
+                        })
+                        .build();
+            }
+        }));
     }
 }

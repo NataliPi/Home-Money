@@ -10,10 +10,22 @@ public class Money {
     private int coins = 0;
     private int bill = 0;
     private Currency currency = Currency.USD;
-    private float course;
+    private float course = 0.0f;
 
     public Money(int i) {
     bill = i;
+    }
+
+    public Money(float value) {
+   bill = (int)value;
+        coins =(int) ((value - (float) bill) * 100);
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+    public void setCurrency(String currency) {
+        this.currency = Currency.valueOf(currency);
     }
 
     public Currency getCurrency(){

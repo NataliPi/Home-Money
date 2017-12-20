@@ -9,12 +9,13 @@ public class Category {
     private String photo;
     private String name;
     public Category(String filliner) {
-        this.id = filliner;
-        this.photo = filliner;
         this.name = filliner;
     }
 
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;

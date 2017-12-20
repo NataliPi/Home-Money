@@ -65,6 +65,7 @@
     <string name="leave_family_dialog_message">Вы больше не будете иметь доступ к данным о бюджете этой семьи.</string>
     <string name="cancel">Отмена</string>
     <string name="download_image">Загрузка фотографии</string>
+    <string name="add">Добавить</string>
 
 
 </resources>

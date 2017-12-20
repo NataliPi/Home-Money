@@ -46,6 +46,7 @@ public class DraweredActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DraweredActivity.this, SettingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -56,6 +57,7 @@ public class DraweredActivity extends BaseActivity {
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -66,6 +68,7 @@ public class DraweredActivity extends BaseActivity {
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, PlannedSpendingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -76,6 +79,7 @@ public class DraweredActivity extends BaseActivity {
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, BudgetActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -86,16 +90,18 @@ public class DraweredActivity extends BaseActivity {
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, StatisticActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
 
-        TextView familySettings = (TextView)getDrawer().findViewById(R.id.familySettings);
+        TextView familySettings = (TextView) getDrawer().findViewById(R.id.familySettings);
         familySettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, FamilySettingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
@@ -105,21 +111,25 @@ public class DraweredActivity extends BaseActivity {
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, Search.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         getDrawer().closeDrawers();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         clearMenu();
     }
-    private void clearMenu(){
+
+    private void clearMenu() {
         TextView lastSpendings = (TextView) getDrawer().findViewById(R.id.last_spendings);
         lastSpendings.setBackgroundResource(R.color.white);
         TextView search = (TextView) getDrawer().findViewById(R.id.search);
@@ -133,6 +143,7 @@ public class DraweredActivity extends BaseActivity {
         TextView familySettings = (TextView) getDrawer().findViewById(R.id.familySettings);
         familySettings.setBackgroundResource(R.color.white);
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

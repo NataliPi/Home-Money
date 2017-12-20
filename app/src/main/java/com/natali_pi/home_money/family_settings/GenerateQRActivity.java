@@ -32,7 +32,7 @@ public class GenerateQRActivity extends Activity{
         setContentView(R.layout.activity_generator);
         ImageView qrCode = (ImageView) findViewById(R.id.qrCode);
 
-        qrCode.setImageBitmap(QRCode.from(DataBase.getInstance().getFamily().getName()+"::"+DataBase.getInstance().getFamily().getFamilyid()+"::"+UUID.randomUUID().toString()).bitmap());
+        qrCode.setImageBitmap(QRCode.from(DataBase.getInstance().getFamily().getName()+"::"+DataBase.getInstance().getFamily().getId()+"::"+UUID.randomUUID().toString()).bitmap());
     }
 
 }

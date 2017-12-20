@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.utils.DataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,14 @@ import java.util.List;
 public class AddSpendingActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    SpendingPresenter presenter;
+    private CategoryFragment categoryFragment = new CategoryFragment();
+    private SpendingFragment spendingFragment = new SpendingFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setBaseContentView(R.layout.activity_sliding);
-
+        presenter = new SpendingPresenter(this);
         setupToolbar(R.drawable.arrow, "");
         setNavigationButtonListener(getBackAction());
         setupOption(R.drawable.plus);
@@ -31,10 +35,23 @@ public class AddSpendingActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        setOptionButtonListener((view -> {
+            if (presenter.getCategory() != null) {
+                //TODO: Add Spending
+                presenter.setSpending(spendingFragment.getSpending());
+            } else {
+                viewPager.setCurrentItem(0);
+            }
+        }));
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        setTabLayout(0,getString(R.string.chooseCategory));
-        setTabLayout(1,getString(R.string.baseData));
+        setTabLayout(0, getString(R.string.chooseCategory));
+        setTabLayout(1, getString(R.string.baseData));
+    }
+
+    public void toSpendig() {
+
+        viewPager.setCurrentItem(1);
     }
 
     public void setTabLayout(int index, String text) {
@@ -45,11 +62,14 @@ public class AddSpendingActivity extends BaseActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new CategoryFragment(), getString(R.string.chooseCategory));
-        adapter.addFragment(new SpendingFragment(), getString(R.string.baseData));
+
+        categoryFragment.setPresenter(presenter);
+        adapter.addFragment(categoryFragment, getString(R.string.chooseCategory));
+        adapter.addFragment(spendingFragment, getString(R.string.baseData));
         viewPager.setAdapter(adapter);
 
     }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -78,4 +98,8 @@ public class AddSpendingActivity extends BaseActivity {
             return mFragmentTitleList.get(position);
         }
     }
-   }
+
+    public void updateCategoriesList() {
+        categoryFragment.setAdapter(DataBase.getInstance().getFamily().getCategories());
+    }
+}

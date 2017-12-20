@@ -20,6 +20,7 @@ public class AuthorisationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorisation);
+
         Button login = ( Button) findViewById(R.id.login);
         Button registration = ( Button) findViewById(R.id.registration);
         login.setOnClickListener(new View.OnClickListener() {

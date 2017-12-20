@@ -14,7 +14,7 @@
       <RelativeLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content">
-            <TextView
+            <EditText
                 android:id="@+id/spendedName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -23,9 +23,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/price"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:drawableTint="@null"
+                android:background="@null"
+                android:padding="0dp"/>
 
-          <TextView
+          <EditText
               android:id="@+id/price"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -34,8 +37,11 @@
               android:layout_toLeftOf="@+id/currency"
               android:layout_marginLeft="16dp"
               android:layout_marginRight="16dp"
+              android:drawableTint="@null"
+              android:background="@null"
+              android:padding="0dp"
               >
-          </TextView>
+          </EditText>
           <TextView
               android:id="@+id/currency"
               android:layout_width="wrap_content"

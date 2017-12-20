@@ -1,15 +1,22 @@
 package com.natali_pi.home_money.add_spending;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.SpendingComponent;
+import com.natali_pi.home_money.utils.Currency;
+import com.natali_pi.home_money.utils.TextPickerDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,11 +24,13 @@ import java.util.List;
  */
 
 public class ComponentsAdapter extends BaseAdapter {
-    List<SpendingComponent> components;
+    List<SpendingComponent> components = new ArrayList<>();
     Context context;
-
+    TextPickerDialog dialog = null;
     public ComponentsAdapter(List<SpendingComponent> components, Context context) {
-        this.components = components;
+        if(components != null) {
+            this.components.addAll(components);
+        }
         this.context = context;
     }
 
@@ -45,12 +54,60 @@ public class ComponentsAdapter extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_component, null);
         }
-        TextView spendedName = (TextView) view.findViewById(R.id.spendedName);
+
+        EditText spendedName = (EditText) view.findViewById(R.id.spendedName);
         spendedName.setText(components.get(position).getName());
-        TextView price = (TextView) view.findViewById(R.id.price);
+        EditText price = (EditText) view.findViewById(R.id.price);
         price.setText(components.get(position).getPrice().toString());
         TextView currency = (TextView) view.findViewById(R.id.currency);
         currency.setText(components.get(position).getPrice().getCurrency().toString());
+        currency.setOnClickListener((v)->{
+            dialog = new TextPickerDialog(context, "Выберите валюту",0, Currency.getAsList())
+                    .setOnDoneListener((result)->{
+                currency.setText(dialog.getInnerResultString(result));
+                        components.get(position).getPrice().setCurrency(dialog.getInnerResultString(result));
+            }).showMe();
+        });
+        spendedName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                components.get(position).setName(""+charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        price.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                components.get(position).setPrice(price.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         return view;
+    }
+
+    public List<SpendingComponent> getComponents() {
+        return components;
+    }
+    public void addSpendingComponent(){
+        components.add(new SpendingComponent());
+        notifyDataSetChanged();
     }
 }

@@ -7,8 +7,8 @@ import com.natali_pi.home_money.utils.Currency;
  */
 
 public class SpendingComponent {
-    private String name;
-    private Money price;
+    private String name = "";
+    private Money price = new Money();
 
     public String getName() {
         return name;
@@ -24,5 +24,8 @@ public class SpendingComponent {
 
     public void setPrice(Money price) {
         this.price = price;
+    }
+    public void setPrice(String price) {
+        this.price = new Money(Float.parseFloat(price));
     }
 }

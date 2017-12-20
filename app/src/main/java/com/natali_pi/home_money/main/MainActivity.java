@@ -40,6 +40,7 @@ public class MainActivity extends DraweredActivity {
         setupOption(R.drawable.plus);
         setupLabel(getString(R.string.last_spendings));
         setupSideDrawer();
+
         setOptionButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,10 +63,11 @@ public class MainActivity extends DraweredActivity {
         final TextView dateLabel = (TextView)findViewById(R.id.dateLabel);
         final TextView dateLabel3 = (TextView)findViewById(R.id.dateText3);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-        DaySpendingsFragment daySpendingsFragment = new DaySpendingsFragment();
-        daySpendingsFragment.setSpendings(DataBase.getInstance().getFamily().getSpended());
-        getFragmentManager().beginTransaction().add(R.id.list, daySpendingsFragment).commit();
-
+        if(DataBase.getInstance().getFamily().getSpendings()!= null&&DataBase.getInstance().getFamily().getSpendings().size()>0) {
+            DaySpendingsFragment daySpendingsFragment = new DaySpendingsFragment();
+            daySpendingsFragment.setSpendings(DataBase.getInstance().getFamily().getSpendings());
+            getFragmentManager().beginTransaction().add(R.id.list, daySpendingsFragment).commit();
+        }
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
