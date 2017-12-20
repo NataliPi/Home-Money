@@ -13,8 +13,5 @@ import com.natali_pi.home_money.registration.RegistrationActivity;
 
 public class AuthorisationPresenter extends BasePresenter {
 
-    @Override
-    protected BaseActivity getView() {
-        return null;
-    }
+
 }

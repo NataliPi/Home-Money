@@ -1,5 +1,7 @@
 package com.natali_pi.home_money.models;
 
+import com.natali_pi.home_money.utils.App;
+
 /**
  * Created by Natali-Pi on 21.11.2017.
  */
@@ -12,6 +14,23 @@ public class Human {
     private String id;
     private String familyName;
     private String familyId;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPhoto() {
+        if(photo != null && !photo.equals("")) {
+            return App.BASE_URL + App.PICTURE_URL + photo;
+        } else {
+            return null;
+        }
+    }
+
+    public void setPhoto(String photo) {
+
+        this.photo = photo;
+    }
 
     public void setName(String name) {
         this.name = name;

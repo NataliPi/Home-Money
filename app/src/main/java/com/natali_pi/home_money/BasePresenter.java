@@ -12,10 +12,18 @@ import io.reactivex.disposables.Disposable;
  * Created by Natali-Pi on 13.12.2017.
  */
 
-public abstract class BasePresenter {
+public class BasePresenter<ViewType extends BaseActivity> {
 
-    protected List<Disposable> disposables = new ArrayList<>();
+    private ViewType activity;
+    private List<Disposable> disposables = new ArrayList<>();
 
+    public void setView(ViewType activity) {
+        this.activity = activity;
+    }
+
+    public ViewType getView() {
+        return activity;
+    }
 
     protected <Type> Observer<Type> getObserver(boolean isShowLoading, OnNext<Type> action) {
         return new Observer<Type>() {
@@ -52,10 +60,9 @@ public abstract class BasePresenter {
     }
 
     private void onCallError() {
-    getView().onError();
+        getView().onError();
     }
 
-     protected abstract BaseActivity getView();
     public interface OnNext<Type> {
         void onNext(Type data);
     }

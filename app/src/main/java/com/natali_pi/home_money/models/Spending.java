@@ -42,7 +42,11 @@ public class Spending {
 
     }
     private Money getSumTest(){
-        return new Money(Integer.parseInt(name));
+        try {
+            return new Money(Integer.parseInt(name));
+        } catch (NumberFormatException nfe){
+            return new Money(0);
+        }
     }
     public Money getSum (){
         if(BuildConfig.DEBUG){

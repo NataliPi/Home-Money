@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Category;
-import com.natali_pi.home_money.utils.App;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class CategoryAdapter extends BaseAdapter {
-
+    SpendingPresenter presenter = SpendingPresenter.getInstance();
     private ArrayList<Category> categories;
     private ArrayList<RelativeLayout> holders = new ArrayList<>();
     private Context context;
@@ -57,9 +59,25 @@ public class CategoryAdapter extends BaseAdapter {
         RelativeLayout holder = (RelativeLayout) view.findViewById(R.id.holder);
         TextView text = (TextView) view.findViewById(R.id.text);
         ImageView icon = (ImageView) view.findViewById(R.id.icon);
+
+
         holders.add(position, holder);
         if (position < categories.size()) {
-            Picasso.with(context).load(App.BASE_URL + App.PICTURE_URL + categories.get(position).getPhoto()).into(icon);
+            Picasso.with(context).load(categories.get(position).getPhoto())
+                    .placeholder(context.getResources().getDrawable(R.drawable.camera))
+                    .error(context.getResources().getDrawable(R.drawable.camera))
+                    .into(icon);
+            icon.setOnClickListener((v) -> {
+                PickImageDialog.build(presenter.getView().getPickSetup())
+                        .setOnPickResult(new IPickResult() {
+                            @Override
+                            public void onPickResult(PickResult result) {
+                                icon.setImageBitmap(result.getBitmap());
+                                presenter.uploadCategoryPhoto(categories.get(position), result.getBitmap());
+                            }
+                        }).show(presenter.getView());
+            });
+
             text.setText(categories.get(position).getName());
             holder.setOnClickListener((v) -> {
                 clearBackgrounds();

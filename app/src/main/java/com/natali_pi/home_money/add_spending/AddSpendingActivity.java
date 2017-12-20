@@ -19,14 +19,14 @@ import java.util.List;
 public class AddSpendingActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    SpendingPresenter presenter;
+    SpendingPresenter presenter = SpendingPresenter.getInstance();
     private CategoryFragment categoryFragment = new CategoryFragment();
     private SpendingFragment spendingFragment = new SpendingFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setBaseContentView(R.layout.activity_sliding);
-        presenter = new SpendingPresenter(this);
+        presenter.setView(this);
         setupToolbar(R.drawable.arrow, "");
         setNavigationButtonListener(getBackAction());
         setupOption(R.drawable.plus);

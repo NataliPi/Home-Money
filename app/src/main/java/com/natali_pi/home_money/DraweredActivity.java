@@ -1,6 +1,7 @@
 package com.natali_pi.home_money;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.natali_pi.home_money.planned_spending.PlannedSpendingActivity;
 import com.natali_pi.home_money.search.Search;
 import com.natali_pi.home_money.settings.SettingActivity;
 import com.natali_pi.home_money.statistic.StatisticActivity;
+import com.natali_pi.home_money.utils.DataBase;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
@@ -22,11 +25,17 @@ import com.vansuita.pickimage.listeners.IPickResult;
  * Created by Natali-Pi on 11.12.2017.
  */
 
-public class DraweredActivity extends BaseActivity {
+public abstract class DraweredActivity extends BaseActivity {
+    abstract protected void onBitmapLoaded(TAG tag, Bitmap bitmap);
+    public enum TAG{
+        AVATAR
+    }
     @Override
     public void setupSideDrawer() {
         super.setupSideDrawer();
         final ImageView imageView = (ImageView) getDrawer().findViewById(R.id.imageView);
+
+        Picasso.with(this).load(DataBase.getInstance().getHuman().getPhoto()).into(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,7 +44,7 @@ public class DraweredActivity extends BaseActivity {
                             @Override
                             public void onPickResult(PickResult result) {
                                 imageView.setImageBitmap(result.getBitmap());
-
+                                onBitmapLoaded(TAG.AVATAR, result.getBitmap());
                             }
                         }).show(DraweredActivity.this);
             }
