@@ -21,12 +21,12 @@ import java.util.List;
 
 import io.reactivex.Observer;
 
-public class RegistrationPresenter extends BasePresenter{
+public class RegistrationPresenter extends BasePresenter<RegistrationActivity>{
     private BaseAPI api;
-    RegistrationActivity activity;
+
 
     public RegistrationPresenter(RegistrationActivity activity) {
-        this.activity = activity;
+        setView(activity);
         api = new Api();
     }
     public void register(Human human){
@@ -36,19 +36,16 @@ public class RegistrationPresenter extends BasePresenter{
            if(!message.getResult().equals("failure") ){//TODO: change to constant
             api.login(human).subscribe(getObserver(true, (data)->{
                 DataBase.getInstance().login(data);
-                activity.toMainActivity();
+                getView().toMainActivity();
             }));
 
 
             } else {
-               activity.showMessage("Sorry something went wrong");
+               getView().showMessage("Sorry something went wrong");
             }
         }));
 
     }
 
-    @Override
-    protected BaseActivity getView() {
-        return activity;
-    }
+
 }

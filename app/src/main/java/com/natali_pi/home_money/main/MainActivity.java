@@ -1,6 +1,7 @@
 package com.natali_pi.home_money.main;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
@@ -31,10 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends DraweredActivity {
-
+MainPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new MainPresenter(this);
         setBaseContentView(R.layout.activity_main);
         setupToolbar(R.drawable.burger, "");
         setupOption(R.drawable.plus);
@@ -85,5 +87,8 @@ public class MainActivity extends DraweredActivity {
     }
 
 
-
+    @Override
+    protected void onBitmapLoaded(DraweredActivity.TAG tag, Bitmap bitmap) {
+        presenter.uploadPicture(tag, bitmap);
+    }
 }

@@ -17,14 +17,14 @@ import com.natali_pi.home_money.utils.BaseAPI;
 import com.natali_pi.home_money.utils.DataBase;
 import com.natali_pi.home_money.utils.OneButtonDialog;
 
-public class LoginPresenter extends BasePresenter {
-LoginActivity activity;
+public class LoginPresenter extends BasePresenter<LoginActivity> {
+
     private BaseAPI api;
 
 
 
     public LoginPresenter(LoginActivity activity) {
-        this.activity = activity;
+        setView(activity);
         api = new Api();
     }
 public void forgotPassword(String email){
@@ -35,11 +35,8 @@ public void login(Human human){
     api.login(human).subscribe(getObserver(true, (data)->{
         //TODO: Add message show on error
         DataBase.getInstance().login(data);
-        activity.toMainActivity();
+getView().toMainActivity();
     }));
 }
-    @Override
-    protected BaseActivity getView() {
-        return activity;
-    }
+
 }

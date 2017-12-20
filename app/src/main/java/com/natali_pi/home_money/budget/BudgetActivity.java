@@ -3,6 +3,7 @@ package com.natali_pi.home_money.budget;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -65,6 +66,12 @@ public class BudgetActivity extends DraweredActivity {
         viewPager.setAdapter(adapter);
 
     }
+
+    @Override
+    protected void onBitmapLoaded(DraweredActivity.TAG tag, Bitmap bitmap) {
+
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

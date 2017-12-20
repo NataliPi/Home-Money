@@ -27,7 +27,7 @@ import com.vansuita.pickimage.enums.EPickType;
 public class BaseActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     PickSetup pickSetup = null;
-    protected PickSetup getPickSetup(){
+    public  PickSetup getPickSetup(){
         if (pickSetup == null){
             pickSetup = new PickSetup()
                     .setTitle(getString(R.string.download_image))

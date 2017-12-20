@@ -35,4 +35,11 @@ public interface BaseAPI {
         Observable<Message> setSpending(@Body Spending spending);
 
 
+        @POST("/rest/picture/upload/{id}")
+        Observable<Message> uploadPicture(@Body Message message, @Path("id") String id);
+        //    @RequestMapping(value = "/rest/picture/upload/{familyId}/{id}", method = RequestMethod.POST)
+        //public Message uploadPicture(@RequestBody Message message, @PathVariable String familyId, @PathVariable String id) {
+        @POST("/rest/picture/upload/{familyId}/{id}")
+        Observable<Message> uploadPicture(@Body Message message, @Path("familyId") String familyId, @Path("id") String id);
+
 }

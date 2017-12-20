@@ -46,5 +46,15 @@ public class Api implements BaseAPI {
         return api.setSpending(spending).compose(new AsyncTransformer<>());
     }
 
+    @Override
+    public Observable<Message> uploadPicture(Message message, String id) {
+        return api.uploadPicture(message, id).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> uploadPicture(Message message, String familyId, String id) {
+        return api.uploadPicture(message, familyId, id).compose(new AsyncTransformer<>());
+    }
+
 
 }
