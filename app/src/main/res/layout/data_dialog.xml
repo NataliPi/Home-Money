@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/pickerslayout"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
             android:id="@+id/result" />
 
         <Button
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/result"
             android:text="OK"
+            android:background="@color/yellow"
             android:id="@+id/done" />
     </RelativeLayout>
 </RelativeLayout>

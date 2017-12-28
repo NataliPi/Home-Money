@@ -50,7 +50,9 @@ public class DataBase {
         }
         return photoBase64;
     }
-
+public String getCurrentCurrency(){
+        return "UAH";
+}
     public void login(LoginData data) {
     family = data.getFamily();
     human = data.getHuman();

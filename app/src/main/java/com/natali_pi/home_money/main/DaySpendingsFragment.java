@@ -2,14 +2,17 @@ package com.natali_pi.home_money.main;
 
 import android.graphics.Point;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.natali_pi.home_money.BaseFragment;
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.Spending;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +93,7 @@ public class DaySpendingsFragment extends BaseFragment {
         if (large != null) {
             for (int i = 0; i < large.size(); i++) {
 
-                line.addView(prepareSpendingView(SIZE._2X2));
+                line.addView(prepareSpendingView(large.get(i), SIZE._2X2));
                 if (i % 2 != 0) {
                     line = new LinearLayout(getActivity());
                     line.setOrientation(LinearLayout.HORIZONTAL);
@@ -135,10 +138,10 @@ public class DaySpendingsFragment extends BaseFragment {
                         lineHolder.addView(line);
                     }
 
-                    line.addView(prepareSpendingView(size));
+                    line.addView(prepareSpendingView(medium.get(i), size));
 
                 } else {
-                    line.addView(prepareSpendingView(size));
+                    line.addView(prepareSpendingView(medium.get(i), size));
 
                     size = randomizeSize();
                     if (!largeLineFinished) {
@@ -181,7 +184,7 @@ public class DaySpendingsFragment extends BaseFragment {
                         largeLineFinished = true;
                     }
                 }
-                line.addView(prepareSpendingView(SIZE._1X1));
+                line.addView(prepareSpendingView(small.get(i), SIZE._1X1));
             }
         }
 
@@ -196,7 +199,9 @@ public class DaySpendingsFragment extends BaseFragment {
     private List<Spending> getSpendings(SIZE size) {
 
         Spending largest = getLargest(this.spendings);
-
+        if(largest == null){
+            return null;
+        }
         Money lowThreshold = largest.getSum().divideBy(3.0f);
         Money highThreshold = Money.substract(largest.getSum(), lowThreshold);
 
@@ -208,6 +213,7 @@ public class DaySpendingsFragment extends BaseFragment {
                         result = new ArrayList<>();
                     }
                     result.add(spending);
+
                 }
             }
         } else if (size == SIZE._2X1 || size == SIZE._1X2) {
@@ -218,6 +224,7 @@ public class DaySpendingsFragment extends BaseFragment {
                         result = new ArrayList<>();
                     }
                     result.add(spending);
+
                 }
             }
         } else if (size == SIZE._1X1) {
@@ -227,31 +234,40 @@ public class DaySpendingsFragment extends BaseFragment {
                         result = new ArrayList<>();
                     }
                     result.add(spending);
+
                 }
             }
         }
         return result;
     }
 
-    private ImageView prepareSpendingView(SIZE size) {
-        ImageView imageView = new ImageView(getActivity());
-        imageView.setImageResource(R.drawable.health);
+    private View prepareSpendingView(Spending spending, SIZE size) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.spending_item, null);
+
+        ImageView imageView = view.findViewById(R.id.image);
+        TextView name = (TextView) view.findViewById(R.id.name);
+        name.setText(spending.getName());
+        imageView.setImageResource(R.drawable.photo);
+        if(spending.getPhoto() != null){
+            Picasso.with(getActivity()).load(spending.getPhoto()).into(imageView);
+        }
+
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         switch (size) {
             case _2X2:
-                imageView.setLayoutParams(getLayoutParams2x2());
+                view.setLayoutParams(getLayoutParams2x2());
                 break;
             case _1X1:
-                imageView.setLayoutParams(getLayoutParams1x1());
+                view.setLayoutParams(getLayoutParams1x1());
                 break;
             case _1X2:
-                imageView.setLayoutParams(getLayoutParams1x2());
+                view.setLayoutParams(getLayoutParams1x2());
                 break;
             case _2X1:
-                imageView.setLayoutParams(getLayoutParams2x1());
+                view.setLayoutParams(getLayoutParams2x1());
                 break;
         }
-        return imageView;
+        return view;
     }
 
     private int getScreenWidth() {

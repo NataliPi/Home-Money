@@ -15,12 +15,17 @@ public class Money {
     public Money(int i) {
     bill = i;
     }
-
-    public Money(float value) {
-   bill = (int)value;
-        coins =(int) ((value - (float) bill) * 100);
+    public Money(String value, String currency) {
+        parse(Float.parseFloat(value));
+        this.currency = Currency.valueOf(currency);
     }
-
+    public Money(float value) {
+        parse(value);
+    }
+private void parse(float value){
+    bill = (int)value;
+    coins =(int) ((value - (float) bill) * 100);
+}
     public void setCurrency(Currency currency) {
         this.currency = currency;
     }

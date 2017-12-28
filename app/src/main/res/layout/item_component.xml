@@ -38,20 +38,21 @@
               android:layout_marginLeft="16dp"
               android:layout_marginRight="16dp"
               android:drawableTint="@null"
+              android:inputType="numberDecimal"
               android:background="@null"
               android:padding="0dp"
               >
           </EditText>
-          <TextView
+          <com.natali_pi.home_money.utils.views.DropdownView
               android:id="@+id/currency"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:hint="@string/currency"
+              android:text="USD"
               android:textSize="@dimen/text_small"
+              android:background="@null"
               android:layout_alignParentRight="true"
               android:layout_marginLeft="16dp"
-              android:layout_marginRight="16dp">
-          </TextView>
+              android:layout_marginRight="16dp"/>
       </RelativeLayout>
         <View android:layout_width="match_parent"
             android:layout_height="1dp"

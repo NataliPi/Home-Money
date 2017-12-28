@@ -3,18 +3,19 @@ package com.natali_pi.home_money.add_spending;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.SpendingComponent;
 import com.natali_pi.home_money.utils.Currency;
+import com.natali_pi.home_money.utils.DataBase;
 import com.natali_pi.home_money.utils.TextPickerDialog;
+import com.natali_pi.home_money.utils.views.DropdownView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,9 @@ public class ComponentsAdapter extends BaseAdapter {
     List<SpendingComponent> components = new ArrayList<>();
     Context context;
     TextPickerDialog dialog = null;
+
     public ComponentsAdapter(List<SpendingComponent> components, Context context) {
-        if(components != null) {
+        if (components != null) {
             this.components.addAll(components);
         }
         this.context = context;
@@ -59,15 +61,10 @@ public class ComponentsAdapter extends BaseAdapter {
         spendedName.setText(components.get(position).getName());
         EditText price = (EditText) view.findViewById(R.id.price);
         price.setText(components.get(position).getPrice().toString());
-        TextView currency = (TextView) view.findViewById(R.id.currency);
-        currency.setText(components.get(position).getPrice().getCurrency().toString());
-        currency.setOnClickListener((v)->{
-            dialog = new TextPickerDialog(context, "Выберите валюту",0, Currency.getAsList())
-                    .setOnDoneListener((result)->{
-                currency.setText(dialog.getInnerResultString(result));
-                        components.get(position).getPrice().setCurrency(dialog.getInnerResultString(result));
-            }).showMe();
-        });
+        DropdownView currency = view.findViewById(R.id.currency);
+        currency.setItems(Currency.getAsList());
+        currency.setDefaultFirst(DataBase.getInstance().getCurrentCurrency());
+
         spendedName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -76,7 +73,7 @@ public class ComponentsAdapter extends BaseAdapter {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                components.get(position).setName(""+charSequence);
+                components.get(position).setName("" + charSequence);
             }
 
             @Override
@@ -92,7 +89,9 @@ public class ComponentsAdapter extends BaseAdapter {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                components.get(position).setPrice(price.getText().toString());
+                components.get(position).setPrice(new Money(price.getText().toString(), currency.getData()));
+                summListener.onSummChanged(getSumm());
+
             }
 
             @Override
@@ -103,10 +102,29 @@ public class ComponentsAdapter extends BaseAdapter {
         return view;
     }
 
+    private OnSummChangedListener summListener;
+
+    public void setSummListener(OnSummChangedListener summListener) {
+        this.summListener = summListener;
+    }
+
+    interface OnSummChangedListener {
+        void onSummChanged(Money summ);
+    }
+
+    private Money getSumm() {
+        Money summ = new Money(0.0f);
+        for (SpendingComponent component : components) {
+            summ = Money.sum(summ, component.getPrice());
+        }
+        return summ;
+    }
+
     public List<SpendingComponent> getComponents() {
         return components;
     }
-    public void addSpendingComponent(){
+
+    public void addSpendingComponent() {
         components.add(new SpendingComponent());
         notifyDataSetChanged();
     }

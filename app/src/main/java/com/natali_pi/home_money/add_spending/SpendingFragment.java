@@ -1,8 +1,10 @@
 package com.natali_pi.home_money.add_spending;
 
-import android.text.style.TtsSpan;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -10,16 +12,26 @@ import com.natali_pi.home_money.BaseFragment;
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.Spending;
-import com.natali_pi.home_money.models.SpendingComponent;
-import com.natali_pi.home_money.utils.PickDateDialog;
+import com.natali_pi.home_money.utils.Currency;
+import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.views.DropdownView;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 /**
  * Created by Natali-Pi on 22.11.2017.
  */
 
-public class SpendingFragment extends BaseFragment{
-    EditText name;
-    EditText date;
+public class SpendingFragment extends BaseFragment {
+    private ComponentsAdapter componentsAdapter;
+    private EditText name;
+    private DropdownView date;
+    private SpendingPresenter presenter = SpendingPresenter.getInstance();
+    private DropdownView currency;
+    private EditText price;
+    boolean calculateSumm = true;
+
     @Override
     protected void resolveDaggerDependencies() {
 
@@ -29,41 +41,80 @@ public class SpendingFragment extends BaseFragment{
     protected int contentView() {
         return R.layout.fragment_add_spending;
     }
-ComponentsAdapter componentsAdapter;
-    PickDateDialog pickDateDialog;
+
+
     @Override
     protected View onCreateView(View root) {
-         name = (EditText) root.findViewById(R.id.name);
-         date = (EditText) root.findViewById(R.id.date);
-         date.setKeyListener( null);
-         date.setOnClickListener(pickDateDialog = new PickDateDialog(getActivity()));
-         date.setText(pickDateDialog.getText());
+        ImageView spendPhoto = (ImageView) root.findViewById(R.id.spendingPhoto);
+        spendPhoto.setOnClickListener((v) -> {
+            PickImageDialog.build(getBaseActivity().getPickSetup())
+                    .setOnPickResult(new IPickResult() {
+                        @Override
+                        public void onPickResult(PickResult result) {
+                            spendPhoto.setImageBitmap(result.getBitmap());
+                            presenter.setSpendingPicture(result.getBitmap());
+                        }
+                    }).show(getBaseActivity());
+        });
+
+        name = (EditText) root.findViewById(R.id.name);
+        price = (EditText) root.findViewById(R.id.price);
+        currency = (DropdownView) root.findViewById(R.id.currency);
+        currency.setItems(Currency.getAsList());
+        currency.setDefaultFirst(DataBase.getInstance().getCurrentCurrency());
+
+        date = (DropdownView) root.findViewById(R.id.date);
+        date.setTodayDate();
+        price.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().equals("")) {
+                    calculateSumm = true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        price.setOnFocusChangeListener((v, d) -> {
+            if (d) {
+                calculateSumm = false;
+            }
+        });
         LinearLayout addComponent = (LinearLayout) root.findViewById(R.id.addComponent);
+
         final ListView componentsHolder = (ListView) root.findViewById(R.id.componentsHolder);
         componentsAdapter = new ComponentsAdapter(null, getActivity());
-       componentsHolder.setAdapter(componentsAdapter);
-        addComponent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                componentsAdapter.addSpendingComponent();
+        componentsHolder.setAdapter(componentsAdapter);
+        componentsAdapter.setSummListener((summ) -> {
+            if (calculateSumm) {
+                price.setText(summ.toString());
             }
+        });
+        addComponent.setOnClickListener((View view) -> {
+            componentsAdapter.addSpendingComponent();
         });
 
 
         return root;
     }
 
-    public Spending getSpending(){
+    public Spending getSpending() {
         Spending spending = new Spending(name.getText().toString());
-        spending.setDate(pickDateDialog.getText());
-        spending.setComponents(componentsAdapter.getComponents());
-    return spending;
-    }
-    private Money getSum(){
-        Money result = new Money();
-        for (SpendingComponent spendingComponent : componentsAdapter.getComponents()) {
-            Money.sum(result, spendingComponent.getPrice());
+        spending.setDate(date.getData());
+        if(!calculateSumm) {
+            spending.setSumm(new Money(price.getText().toString(), currency.getData()));
         }
-        return result;
+        spending.setComponents(componentsAdapter.getComponents());
+        return spending;
     }
+
+
 }

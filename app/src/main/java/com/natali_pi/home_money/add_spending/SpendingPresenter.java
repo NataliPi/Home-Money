@@ -18,6 +18,7 @@ public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
 
     private BaseAPI api = new Api();
     private Category category;
+    private Bitmap spendingPicture = null; //TODO:  Make Weak reference?
     private static SpendingPresenter instance = new SpendingPresenter();
 
     public static SpendingPresenter getInstance() {
@@ -25,7 +26,9 @@ public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
         return instance;
     }
 
-
+    public void setSpendingPicture(Bitmap spendingPicture) {
+        this.spendingPicture = spendingPicture;
+    }
 
     public void setCategory(Category category) {
 
@@ -53,8 +56,20 @@ public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
 
     public void setSpending(Spending spending) {
         spending.setBuyerId(DataBase.getInstance().getFamily().getId());
+        spending.setCategory(category.getId());
         api.setSpending(spending).subscribe(getObserver(true, (result) -> {
-            getView().finish();
+            if (!result.isFailure()) {
+                spending.setId(result.getResult());
+                DataBase.getInstance().getFamily().setSpending(spending);
+                if (spendingPicture == null) {
+                    getView().finish();
+                } else {
+                     Bitmap spendingPicture = this.spendingPicture;
+                    uploadSpendingPhoto(spending, spendingPicture, ()->{
+                        getView().finish();
+                    });
+                }
+            }
         }));
 
     }
@@ -64,6 +79,14 @@ public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
                 .subscribe(getObserver(true, (result) -> {
                     category.setPhoto(result.getResult());
                     getView().updateCategoriesList();
+                }));
+    }
+
+    public void uploadSpendingPhoto(Spending spending, Bitmap bitmap, Runnable onFinish) {
+        api.uploadPicture(new Message(bitmap), DataBase.getInstance().getFamily().getId(), spending.getId())
+                .subscribe(getObserver(true, (result) -> {
+                    spending.setPhoto(result.getResult());
+                    onFinish.run();
                 }));
     }
 }

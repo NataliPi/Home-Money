@@ -60,4 +60,8 @@ public class Family {
     public Money getLimit() {
         return limit;
     }
+
+    public void setSpending(Spending spending) {
+        //this.spending = spending;//TODO set spending
+    }
 }
