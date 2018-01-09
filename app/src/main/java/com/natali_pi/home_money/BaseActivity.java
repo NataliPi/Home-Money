@@ -25,6 +25,7 @@ import com.vansuita.pickimage.enums.EPickType;
  */
 
 public class BaseActivity extends AppCompatActivity {
+    public static final String DATA = "DATA";
     private DrawerLayout drawer;
     PickSetup pickSetup = null;
     public  PickSetup getPickSetup(){

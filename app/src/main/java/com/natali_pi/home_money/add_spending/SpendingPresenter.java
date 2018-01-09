@@ -22,7 +22,6 @@ public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
     private static SpendingPresenter instance = new SpendingPresenter();
 
     public static SpendingPresenter getInstance() {
-
         return instance;
     }
 

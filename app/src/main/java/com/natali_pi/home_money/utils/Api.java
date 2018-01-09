@@ -56,5 +56,15 @@ public class Api implements BaseAPI {
         return api.uploadPicture(message, familyId, id).compose(new AsyncTransformer<>());
     }
 
+    @Override
+    public Observable<Message> prepareInvitation(String familyId) {
+        return api.prepareInvitation(familyId).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> acceptInvitation(String familyId, String humanId, String password) {
+        return api.acceptInvitation(familyId, humanId, password).compose(new AsyncTransformer<>());
+    }
+
 
 }
