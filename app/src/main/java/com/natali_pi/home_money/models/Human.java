@@ -27,6 +27,14 @@ public class Human {
         }
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public void setPhoto(String photo) {
 
         this.photo = photo;

@@ -73,6 +73,7 @@ public class RegistrationActivity extends BaseActivity {
 
     public void toMainActivity() {
     Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
     startActivity(intent);
 }
 
