@@ -13,6 +13,7 @@
         android:id="@+id/icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:scaleType="centerCrop"
         android:layout_marginLeft="16dp"
         android:src="@drawable/health"/>
     <TextView

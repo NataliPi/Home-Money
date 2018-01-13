@@ -77,8 +77,11 @@ public class CategoryAdapter extends BaseAdapter {
                             }
                         }).show(presenter.getView());
             });
-
-            text.setText(categories.get(position).getName());
+            if (categories.get(position).isStandard()) {
+                text.setText(categories.get(position).getName());
+            } else {
+                text.setText(categories.get(position).getName());
+            }
             holder.setOnClickListener((v) -> {
                 clearBackgrounds();
                 holder.setBackgroundResource(R.color.yellow);

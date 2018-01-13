@@ -62,7 +62,9 @@ public class BasePresenter<ViewType extends BaseActivity> {
     private void onCallError() {
         getView().onError();
     }
-
+        public String getStringResourceByName(String name){
+        return getView().getStringResourceByName(name);
+    }
     public interface OnNext<Type> {
         void onNext(Type data);
     }

@@ -14,7 +14,9 @@ public class Category {
     public Category(String filliner) {
         this.name = filliner;
     }
-
+public boolean isStandard(){
+        return id.equals(name);
+}
     public void setPhoto(String photo) {
         this.photo = photo;
     }

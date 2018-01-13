@@ -50,7 +50,6 @@ public class CategoryFragment extends BaseFragment {
             } else {
                 new OneButtonDialog(getActivity(), OneButtonDialog.DIALOG_TYPE.INPUT_ONLY)
                         .setTitle("Добавление категории")
-                        //.setMessage(getString(R.string.forget_email_message))
                         .setEditTextHint("Введите название")
                         .setOkListener((categoryName)->{
                             presenter.setCategory(new Category(categoryName));

@@ -38,6 +38,7 @@ public static final String PICTURE_URL = "rest/picture/";
                 .build();
         api = retrofit.create(BaseAPI.class); //Создаем объект, при помощи которого будем выполнять запросы
     }
+
     public static BaseAPI getBaseApi() {
         return api;
     }

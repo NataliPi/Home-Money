@@ -38,7 +38,7 @@ public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
                         category.setId(response.getResult());
                         DataBase.getInstance().getFamily().getCategories().add(category);
                         getView().updateCategoriesList();
-                        getView().toSpendig();
+                        //getView().toSpendig();
                     }));
 
         } else {
