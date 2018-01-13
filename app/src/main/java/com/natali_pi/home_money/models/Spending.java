@@ -3,6 +3,7 @@ package com.natali_pi.home_money.models;
 import com.natali_pi.home_money.BuildConfig;
 import com.natali_pi.home_money.utils.App;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by Natali-Pi on 21.11.2017.
  */
 
-public class Spending {
+public class Spending implements Serializable {
     private String name;
     private String buyerId;
     private String id;
@@ -25,6 +26,10 @@ public class Spending {
 
     public void setComponents(List<SpendingComponent> components) {
         this.components = components;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public void setDate(String date) {

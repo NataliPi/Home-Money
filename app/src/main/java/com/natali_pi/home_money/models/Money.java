@@ -2,11 +2,13 @@ package com.natali_pi.home_money.models;
 
 import com.natali_pi.home_money.utils.Currency;
 
+import java.io.Serializable;
+
 /**
  * Created by Natali-Pi on 21.11.2017.
  */
 
-public class Money {
+public class Money implements Serializable {
     private int coins = 0;
     private int bill = 0;
     private Currency currency = Currency.USD;

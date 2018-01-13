@@ -14,7 +14,7 @@ import com.natali_pi.home_money.utils.DataBase;
  * Created by Natali-Pi on 22.11.2017.
  */
 
-public class SpendingPresenter extends BasePresenter<AddSpendingActivity> {
+public class SpendingPresenter extends BasePresenter<SpendingActivity> {
 
     private BaseAPI api = new Api();
     private Category category;

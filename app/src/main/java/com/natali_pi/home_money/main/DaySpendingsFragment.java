@@ -1,5 +1,6 @@
 package com.natali_pi.home_money.main;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -12,10 +13,13 @@ import com.natali_pi.home_money.BaseFragment;
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.Spending;
+import com.natali_pi.home_money.spended.SpendedActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.natali_pi.home_money.BaseActivity.DATA;
 
 /**
  * Created by Natali-Pi on 10.12.2017.
@@ -253,6 +257,12 @@ public class DaySpendingsFragment extends BaseFragment {
         }
 
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        view.setOnClickListener((v)->{
+            Intent intent = new Intent(getActivity(), SpendedActivity.class);
+            intent.putExtra(DATA, spending);
+            startActivity(intent);
+        });
         switch (size) {
             case _2X2:
                 view.setLayoutParams(getLayoutParams2x2());
@@ -267,6 +277,7 @@ public class DaySpendingsFragment extends BaseFragment {
                 view.setLayoutParams(getLayoutParams2x1());
                 break;
         }
+
         return view;
     }
 

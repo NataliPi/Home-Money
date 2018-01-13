@@ -4,32 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.natali_pi.home_money.DraweredActivity;
-import com.natali_pi.home_money.budget.BudgetActivity;
-import com.natali_pi.home_money.models.Spending;
-import com.natali_pi.home_money.planned_spending.PlannedSpendingActivity;
-import com.natali_pi.home_money.settings.SettingActivity;
-import com.natali_pi.home_money.add_spending.AddSpendingActivity;
-import com.natali_pi.home_money.BaseActivity;
+import com.natali_pi.home_money.add_spending.SpendingActivity;
 import com.natali_pi.home_money.R;
-import com.natali_pi.home_money.family_settings.FamilySettingActivity;
-import com.natali_pi.home_money.search.Search;
-import com.natali_pi.home_money.statistic.StatisticActivity;
 import com.natali_pi.home_money.utils.DataBase;
-import com.vansuita.pickimage.bean.PickResult;
-import com.vansuita.pickimage.bundle.PickSetup;
-import com.vansuita.pickimage.dialog.PickImageDialog;
-import com.vansuita.pickimage.listeners.IPickResult;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends DraweredActivity {
 MainPresenter presenter;
@@ -46,7 +28,7 @@ MainPresenter presenter;
         setOptionButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddSpendingActivity.class);
+                Intent intent = new Intent(MainActivity.this, SpendingActivity.class);
                 startActivity(intent);
             }
         });

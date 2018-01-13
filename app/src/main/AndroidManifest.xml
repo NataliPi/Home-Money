@@ -42,7 +42,7 @@
             android:name=".main.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".add_spending.AddSpendingActivity" />
+        <activity android:name=".add_spending.SpendingActivity" />
         <activity android:name=".spended.SpendedActivity" />
         <activity android:name=".settings.SettingActivity" />
         <activity android:name=".search.Search" />

@@ -16,7 +16,7 @@ import com.natali_pi.home_money.utils.DataBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddSpendingActivity extends BaseActivity {
+public class SpendingActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     SpendingPresenter presenter = SpendingPresenter.getInstance();

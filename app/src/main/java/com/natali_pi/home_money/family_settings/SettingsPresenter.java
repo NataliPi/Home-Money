@@ -1,9 +1,6 @@
 package com.natali_pi.home_money.family_settings;
 
 import com.natali_pi.home_money.BasePresenter;
-import com.natali_pi.home_money.add_spending.AddSpendingActivity;
-import com.natali_pi.home_money.add_spending.SpendingPresenter;
-import com.natali_pi.home_money.models.Human;
 import com.natali_pi.home_money.utils.Api;
 import com.natali_pi.home_money.utils.BaseAPI;
 import com.natali_pi.home_money.utils.DataBase;
