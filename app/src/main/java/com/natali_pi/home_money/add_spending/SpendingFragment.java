@@ -15,9 +15,12 @@ import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.utils.Currency;
 import com.natali_pi.home_money.utils.DataBase;
 import com.natali_pi.home_money.utils.views.DropdownView;
+import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 /**
  * Created by Natali-Pi on 22.11.2017.
@@ -51,7 +54,7 @@ public class SpendingFragment extends BaseFragment {
                     .setOnPickResult(new IPickResult() {
                         @Override
                         public void onPickResult(PickResult result) {
-                            spendPhoto.setImageBitmap(result.getBitmap());
+                            spendPhoto.setImageBitmap(new CropCircleTransformation().transform(result.getBitmap()));
                             presenter.setSpendingPicture(result.getBitmap());
                         }
                     }).show(getBaseActivity());

@@ -10,6 +10,8 @@ import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Spending;
 import com.squareup.picasso.Picasso;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 public class SpendedActivity extends BaseActivity{
 
     @Override
@@ -30,7 +32,9 @@ public class SpendedActivity extends BaseActivity{
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setImageResource(R.drawable.photo);
         if(spending.getPhoto() != null){
-            Picasso.with(this).load(spending.getPhoto()).into(imageView);
+            Picasso.with(this).load(spending.getPhoto())
+                    .transform(new CropCircleTransformation())
+                    .into(imageView);
         }
     }
 }

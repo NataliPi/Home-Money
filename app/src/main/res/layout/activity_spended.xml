@@ -30,6 +30,7 @@
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:padding="@dimen/standard_margin"
         app:srcCompat="@drawable/photo" />
 
     <RelativeLayout
@@ -84,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/imageView"
-        android:layout_marginTop="-30dp"
+        android:layout_marginTop="-40dp"
         android:alpha="0.8"
         android:background="@color/yellow"
         android:orientation="horizontal" />

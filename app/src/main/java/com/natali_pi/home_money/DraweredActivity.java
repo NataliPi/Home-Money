@@ -21,6 +21,8 @@ import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 /**
  * Created by Natali-Pi on 11.12.2017.
  */
@@ -35,7 +37,9 @@ public abstract class DraweredActivity extends BaseActivity {
         super.setupSideDrawer();
         final ImageView imageView = (ImageView) getDrawer().findViewById(R.id.imageView);
 
-        Picasso.with(this).load(DataBase.getInstance().getHuman().getPhoto()).into(imageView);
+        Picasso.with(this).load(DataBase.getInstance().getHuman().getPhoto())
+                .transform(new CropCircleTransformation())
+                .into(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
