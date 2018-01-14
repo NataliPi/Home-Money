@@ -53,6 +53,10 @@ public abstract class DraweredActivity extends BaseActivity {
                         }).show(DraweredActivity.this);
             }
         });
+        TextView name = (TextView) findViewById(R.id.name);
+        name.setText(DataBase.getInstance().getHuman().getName());
+        TextView familyName = (TextView) findViewById(R.id.familyName);
+familyName.setText("" + DataBase.getInstance().getHuman().getFamilyName());
 
         ImageView settings = (ImageView) getDrawer().findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {

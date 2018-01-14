@@ -55,4 +55,12 @@ public class Human {
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFamilyName() {
+        return familyName;
+    }
 }
