@@ -25,15 +25,18 @@ import java.util.List;
  */
 
 public class ComponentsAdapter extends BaseAdapter {
-    List<SpendingComponent> components = new ArrayList<>();
-    Context context;
-    TextPickerDialog dialog = null;
+    private List<SpendingComponent> components = new ArrayList<>();
+    private Context context;
+    private boolean isChangable;
+    private TextPickerDialog dialog = null;
 
-    public ComponentsAdapter(List<SpendingComponent> components, Context context) {
+    public ComponentsAdapter(Context context, List<SpendingComponent> components, boolean isChangable) {
+        this.context = context;
+        this.isChangable = isChangable;
         if (components != null) {
             this.components.addAll(components);
         }
-        this.context = context;
+
     }
 
     @Override
@@ -59,28 +62,31 @@ public class ComponentsAdapter extends BaseAdapter {
 
         EditText spendedName = (EditText) view.findViewById(R.id.spendedName);
         spendedName.setText(components.get(position).getName());
+
         EditText price = (EditText) view.findViewById(R.id.price);
         price.setText(components.get(position).getPrice().toString());
         DropdownView currency = view.findViewById(R.id.currency);
         currency.setItems(Currency.getAsList());
         currency.setDefaultFirst(DataBase.getInstance().getCurrentCurrency());
+if(isChangable) {
+    spendedName.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        spendedName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
-            }
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            components.get(position).setName("" + charSequence);
+        }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                components.get(position).setName("" + charSequence);
-            }
+        @Override
+        public void afterTextChanged(Editable editable) {
 
-            @Override
-            public void afterTextChanged(Editable editable) {
+        }
+    });
 
-            }
-        });
+
         price.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -99,6 +105,11 @@ public class ComponentsAdapter extends BaseAdapter {
 
             }
         });
+} else {
+    spendedName.setEnabled(false);
+    price.setEnabled(false);
+    currency.setEnabled(false);
+}
         return view;
     }
 

@@ -1,5 +1,6 @@
 package com.natali_pi.home_money.add_spending;
 
+import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -54,8 +55,10 @@ public class SpendingFragment extends BaseFragment {
                     .setOnPickResult(new IPickResult() {
                         @Override
                         public void onPickResult(PickResult result) {
-                            spendPhoto.setImageBitmap(new CropCircleTransformation().transform(result.getBitmap()));
-                            presenter.setSpendingPicture(result.getBitmap());
+                            Bitmap bitmap = result.getBitmap();
+                            presenter.setSpendingPicture(bitmap);
+                            spendPhoto.setImageBitmap(new CropCircleTransformation().transform(bitmap.copy(null, false)));
+
                         }
                     }).show(getBaseActivity());
         });
@@ -94,7 +97,8 @@ public class SpendingFragment extends BaseFragment {
         LinearLayout addComponent = (LinearLayout) root.findViewById(R.id.addComponent);
 
         final ListView componentsHolder = (ListView) root.findViewById(R.id.componentsHolder);
-        componentsAdapter = new ComponentsAdapter(null, getActivity());
+
+        componentsAdapter = new ComponentsAdapter(getActivity(), null, true);
         componentsHolder.setAdapter(componentsAdapter);
         componentsAdapter.setSummListener((summ) -> {
             if (calculateSumm) {

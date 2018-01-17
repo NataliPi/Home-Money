@@ -178,8 +178,9 @@ public void setTodayDate(){
 
         @Override
         protected void onAction() {
-
-            dialog = new TextPickerDialog(getContext(), "" + getHint(), selectedKeys[0], items).setOnDoneListener(new OnDone()).showMe();
+            if (isEnabled()) {
+                dialog = new TextPickerDialog(getContext(), "" + getHint(), selectedKeys[0], items).setOnDoneListener(new OnDone()).showMe();
+            }
         }
 
         class OnDone implements PickerDialog.OnDoneListener {

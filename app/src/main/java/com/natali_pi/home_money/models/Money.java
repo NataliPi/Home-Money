@@ -1,5 +1,6 @@
 package com.natali_pi.home_money.models;
 
+import com.google.gson.annotations.SerializedName;
 import com.natali_pi.home_money.utils.Currency;
 
 import java.io.Serializable;
@@ -9,9 +10,13 @@ import java.io.Serializable;
  */
 
 public class Money implements Serializable {
+    @SerializedName("coins")
     private int coins = 0;
+    @SerializedName("bill")
     private int bill = 0;
+    @SerializedName("currency")
     private Currency currency = Currency.USD;
+    @SerializedName("course")
     private float course = 0.0f;
 
     public Money(int i) {

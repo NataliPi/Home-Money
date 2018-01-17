@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Natali-Pi on 21.11.2017.
@@ -26,6 +27,25 @@ public class Spending implements Serializable {
 
     public void setComponents(List<SpendingComponent> components) {
         this.components = components;
+    }
+public int getSpendingMonth(){
+    try {
+            Long millis = Long.parseLong(date);
+            return Integer.parseInt(new SimpleDateFormat("yyyyMM").format(new Date(millis)));
+        }catch (NumberFormatException nfe) {
+            return 0;
+        }
+}
+    public String getSpendingMonthText(){
+        try {
+            Long millis = Long.parseLong(date);
+            return new SimpleDateFormat("LLLL yyyy", Locale.getDefault()).format(new Date(millis));
+        }catch (NumberFormatException nfe) {
+            return "";
+        }
+    }
+    public List<SpendingComponent> getComponents() {
+        return components;
     }
 
     public String getCategory() {
@@ -45,7 +65,12 @@ public class Spending implements Serializable {
     }
 
     public String getDate() {
-        return date;
+        try {
+            Long millis = Long.parseLong(date);
+            return new SimpleDateFormat("dd/MM/yyyy").format(new Date(millis));
+        }catch (NumberFormatException nfe) {
+            return date;
+        }
     }
 
     public String getPhoto() {
@@ -93,11 +118,11 @@ public class Spending implements Serializable {
     }
     public Money getSum (){
         if(summ == null) {
-            if (BuildConfig.DEBUG) {
+            if (components == null && BuildConfig.DEBUG) {
                 return getSumTest();
             }
             Money result = new Money();
-            for (int i = 0; i <= components.size(); i++) {
+            for (int i = 0; i < components.size(); i++) {
                 result = Money.sum(result, components.get(i).getPrice());
             }
             return result;

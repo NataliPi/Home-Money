@@ -26,9 +26,20 @@ import static com.natali_pi.home_money.BaseActivity.DATA;
  */
 
 public class DaySpendingsFragment extends BaseFragment {
-    int screenWidth = -1;
-    int margin = -1;
+    private int screenWidth = -1;
+    private int margin = -1;
+    private TextView dateText;
     private List<Spending> spendings;
+
+    public int getDatePosition() {
+        int[] pos = new int[2];
+        dateText.getLocationOnScreen(pos);
+        return pos[1];
+    }
+
+    public String getMonth() {
+        return dateText.getText().toString();
+    }
 
     @Override
     protected void resolveDaggerDependencies() {
@@ -69,6 +80,8 @@ public class DaySpendingsFragment extends BaseFragment {
 
     @Override
     protected View onCreateView(View root) {
+        dateText = (TextView) root.findViewById(R.id.dateText);
+        dateText.setText(spendings.get(0).getSpendingMonthText());
         LinearLayout layout = (LinearLayout) root.findViewById(R.id.dayLayout);
         LinearLayout line = new LinearLayout(getActivity());
 
@@ -157,7 +170,7 @@ public class DaySpendingsFragment extends BaseFragment {
                     } else {
                         if (i != medium.size() - 1) {
                             line = new LinearLayout(getActivity());
-                            if(i == medium.size() - 2){
+                            if (i == medium.size() - 2) {
                                 line.setOrientation(LinearLayout.HORIZONTAL);
                                 size = SIZE._2X1;
                             } else {
@@ -203,7 +216,7 @@ public class DaySpendingsFragment extends BaseFragment {
     private List<Spending> getSpendings(SIZE size) {
 
         Spending largest = getLargest(this.spendings);
-        if(largest == null){
+        if (largest == null) {
             return null;
         }
         Money lowThreshold = largest.getSum().divideBy(3.0f);
@@ -252,13 +265,13 @@ public class DaySpendingsFragment extends BaseFragment {
         TextView name = (TextView) view.findViewById(R.id.name);
         name.setText(spending.getName());
         imageView.setImageResource(R.drawable.photo);
-        if(spending.getPhoto() != null){
+        if (spending.getPhoto() != null) {
             Picasso.with(getActivity()).load(spending.getPhoto()).into(imageView);
         }
 
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        view.setOnClickListener((v)->{
+        view.setOnClickListener((v) -> {
             Intent intent = new Intent(getActivity(), SpendedActivity.class);
             intent.putExtra(DATA, spending);
             startActivity(intent);

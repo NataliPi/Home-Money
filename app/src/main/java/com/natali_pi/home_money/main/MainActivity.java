@@ -9,12 +9,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.natali_pi.home_money.DraweredActivity;
-import com.natali_pi.home_money.add_spending.SpendingActivity;
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.add_spending.SpendingActivity;
+import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.utils.DataBase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends DraweredActivity {
-MainPresenter presenter;
+    MainPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,37 +42,44 @@ MainPresenter presenter;
 
     }
 
-
-
-
-
-
+    List<DaySpendingsFragment> fragments = new ArrayList<>();
 
     private void setupScroller() {
-        final TextView dateLabel = (TextView)findViewById(R.id.dateLabel);
-        final TextView dateLabel3 = (TextView)findViewById(R.id.dateText3);
+        final TextView dateText = (TextView) findViewById(R.id.dateText);
+
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-        if(DataBase.getInstance().getFamily().getSpendings()!= null&&DataBase.getInstance().getFamily().getSpendings().size()>0) {
-            DaySpendingsFragment daySpendingsFragment = new DaySpendingsFragment();
-            daySpendingsFragment.setSpendings(DataBase.getInstance().getFamily().getSpendings());
-            getFragmentManager().beginTransaction().add(R.id.list, daySpendingsFragment).commit();
+        if (DataBase.getInstance().getFamily().getSpendings() != null &&
+                DataBase.getInstance().getFamily().getSpendings().size() > 0) {
+            ArrayList<ArrayList<Spending>> spendingsByMMonth = DataBase.getInstance().getFamily().getSpendingsByMMonth();
+            for (int i = 0; i < spendingsByMMonth.size(); i++) {
+
+                DaySpendingsFragment daySpendingsFragment = new DaySpendingsFragment();
+                daySpendingsFragment.setSpendings(spendingsByMMonth.get(i));
+                getFragmentManager().beginTransaction().add(R.id.list, daySpendingsFragment).commit();
+                fragments.add(daySpendingsFragment);
+            }
+
         }
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-               /* int[] pos3 = new int[2];
-                dateLabel3.getLocationOnScreen(pos3);
-                int[] pos = new int[2];
-                dateLabel.getLocationOnScreen(pos);
-            if(pos[1] >= pos3[1]){
-                dateLabel.setText(dateLabel3.getText());
-            } else if(pos[1] < pos3[1]){
-                dateLabel.setText("ОктябЫрь");
-            }*/
+                int pos = getPosition(dateText);
+                for (int i = 0; i < fragments.size(); i++) {
+                    if (pos >= fragments.get(i).getDatePosition() - dateText.getHeight() / 2) {
+                        dateText.setText(fragments.get(i).getMonth());
+                    } else {
+                        break;
+                    }
+                }
             }
         });
     }
 
+    private int getPosition(TextView textView) {
+        int[] pos = new int[2];
+        textView.getLocationOnScreen(pos);
+        return pos[1];
+    }
 
     @Override
     protected void onBitmapLoaded(DraweredActivity.TAG tag, Bitmap bitmap) {

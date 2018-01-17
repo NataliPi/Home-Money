@@ -16,7 +16,7 @@ public class Family {
     private Money limit;
 
     public Family() {
-    //    this.name = "Пятковские";
+        //    this.name = "Пятковские";
         /*this.spended = new ArrayList<>();
         spended.add(new Spending("1501"));
         //spended.add(new Spending("1401"));
@@ -64,4 +64,41 @@ public class Family {
     public void setSpending(Spending spending) {
         //this.spending = spending;//TODO set spending
     }
+
+    public ArrayList<ArrayList<Spending>> getSpendingsByMMonth() {
+        ArrayList<ArrayList<Spending>> result = new ArrayList<ArrayList<Spending>>();
+        for (int i = 0; i < spendings.size(); i++) {//крутим все траты
+            boolean monthFound = false;
+            for (ArrayList<Spending> spendingsInMonth : result) {//ищем есть ли такой месяц уже в результате
+
+                if (spendingsInMonth.get(0).getSpendingMonth() == spendings.get(i).getSpendingMonth()) {
+                    spendingsInMonth.add(spendings.get(i));
+                    monthFound = true;
+                    break;
+                }
+
+            }
+            if (!monthFound) {
+                ArrayList<Spending> newSpendings = new ArrayList<>();
+                newSpendings.add(this.spendings.get(i));
+                result.add(newSpendings);
+            }
+        }
+
+
+            int n = result.size();
+            int k;
+            for (int m = n; m >= 0; m--) {
+                for (int i = 0; i < n - 1; i++) {
+                    k = i + 1;
+                    if (result.get(i).get(0).getSpendingMonth() < result.get(k).get(0).getSpendingMonth()) {
+                        result.set(k, result.set(i, result.get(k)));
+                    }
+                }
+
+            }
+
+        return result;
+    }
+
 }

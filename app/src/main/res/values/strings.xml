@@ -36,7 +36,7 @@
     <string name="health">Здоровье</string>
     <string name="beauty">Красота</string>
     <string name="shopping">Шопинг</string>
-    <string name="entertaiment">Развлечения</string>
+    <string name="entertainment">Развлечения</string>
     <string name="travel">Путешествия</string>
     <string name="education">Обучение</string>
 
@@ -66,6 +66,9 @@
     <string name="cancel">Отмена</string>
     <string name="download_image">Загрузка фотографии</string>
     <string name="add">Добавить</string>
+
+
+    ;
 
 
 </resources>

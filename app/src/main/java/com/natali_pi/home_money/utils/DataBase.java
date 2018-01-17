@@ -3,17 +3,12 @@ package com.natali_pi.home_money.utils;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
-import com.natali_pi.home_money.BasePresenter;
+import com.natali_pi.home_money.models.Category;
 import com.natali_pi.home_money.models.Family;
 import com.natali_pi.home_money.models.Human;
 import com.natali_pi.home_money.models.LoginData;
 
 import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.Observable;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Natali-Pi on 09.12.2017.
@@ -23,7 +18,8 @@ public class DataBase {
 
     private static DataBase instance = new DataBase();
 
-    private DataBase() {}
+    private DataBase() {
+    }
 
     public static DataBase getInstance() {
         return instance;
@@ -50,13 +46,24 @@ public class DataBase {
         }
         return photoBase64;
     }
-public String getCurrentCurrency(){
+
+    public String getCurrentCurrency() {
         return "UAH";
-}
+    }
+
     public void login(LoginData data) {
-    family = data.getFamily();
-    human = data.getHuman();
+        family = data.getFamily();
+        human = data.getHuman();
     }
 
 
+    public Category getCategoryById(String categoryId) {
+        for (int i = 0; i < family.getCategories().size(); i++) {
+            if (family.getCategories().get(i).getId().equals(categoryId)) {
+                return family.getCategories().get(i);
+            }
+        }
+        return new Category("");
+
+    }
 }

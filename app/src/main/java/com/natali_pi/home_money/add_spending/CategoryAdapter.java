@@ -78,7 +78,7 @@ public class CategoryAdapter extends BaseAdapter {
                         }).show(presenter.getView());
             });
             if (categories.get(position).isStandard()) {
-                text.setText(categories.get(position).getName());
+                text.setText(presenter.getStringResourceByName(categories.get(position).getName()));
             } else {
                 text.setText(categories.get(position).getName());
             }
