@@ -1,37 +1,42 @@
 package com.natali_pi.home_money.add_spending;
 
-import android.support.design.widget.TabLayout;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.utils.DataBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpendingActivity extends BaseActivity {
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     SpendingPresenter presenter = SpendingPresenter.getInstance();
     private CategoryFragment categoryFragment = new CategoryFragment();
     private SpendingFragment spendingFragment = new SpendingFragment();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setBaseContentView(R.layout.activity_sliding);
         presenter.setView(this);
+        setBaseContentView(R.layout.activity_sliding);
         setupToolbar(R.drawable.arrow, "");
         setNavigationButtonListener(getBackAction());
         setupOption(R.drawable.plus);
         setupLabel(getString(R.string.add_spending));
         hideHighlight();
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -47,10 +52,19 @@ public class SpendingActivity extends BaseActivity {
         tabLayout.setupWithViewPager(viewPager);
         setTabLayout(0, getString(R.string.chooseCategory));
         setTabLayout(1, getString(R.string.baseData));
+        if (getIntent().hasExtra(DATA)) {
+            inputSpendingData((Spending) getIntent().getSerializableExtra(DATA));
+        }
+    }
+
+    private void inputSpendingData(Spending spending) {
+        Bundle data = new Bundle();
+        data.putSerializable(DATA, spending);
+        categoryFragment.setArguments(data);
+        spendingFragment.setArguments(data);
     }
 
     public void toSpendig() {
-
         viewPager.setCurrentItem(1);
     }
 

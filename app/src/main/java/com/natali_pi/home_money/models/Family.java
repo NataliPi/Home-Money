@@ -44,6 +44,14 @@ public class Family {
     public ArrayList<Spending> getSpendings() {
         return spendings;
     }
+    public Spending getSpendingById(String id) {
+        for (Spending spending : spendings) {
+            if(spending.getId().equals(id)){
+                return spending;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<Spending> getPlannedSpendings() {
         return plannedSpendings;
@@ -63,6 +71,13 @@ public class Family {
 
     public void setSpending(Spending spending) {
         //this.spending = spending;//TODO set spending
+        for (int i = 0; i < spendings.size(); i++) {
+            if(spendings.get(i).getId().equals(spending.getId())){
+                spendings.set(i, spending);
+                return;
+            }
+        }
+        spendings.add(spending);
     }
 
     public ArrayList<ArrayList<Spending>> getSpendingsByMMonth() {

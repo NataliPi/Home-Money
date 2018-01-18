@@ -6,7 +6,6 @@ import com.natali_pi.home_money.utils.App;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -20,7 +19,7 @@ public class Spending implements Serializable {
     private String buyerId;
     private String id;
     private String category;
-    private String date;
+    private long date;
     private String photo;
     private Money summ;
     private List<SpendingComponent> components;
@@ -28,22 +27,20 @@ public class Spending implements Serializable {
     public void setComponents(List<SpendingComponent> components) {
         this.components = components;
     }
-public int getSpendingMonth(){
-    try {
-            Long millis = Long.parseLong(date);
-            return Integer.parseInt(new SimpleDateFormat("yyyyMM").format(new Date(millis)));
-        }catch (NumberFormatException nfe) {
-            return 0;
-        }
-}
-    public String getSpendingMonthText(){
+
+    public int getSpendingMonth() {
+        return Integer.parseInt(new SimpleDateFormat("yyyyMM").format(new Date(date)));
+    }
+
+    public String getSpendingMonthText() {
         try {
-            Long millis = Long.parseLong(date);
-            return new SimpleDateFormat("LLLL yyyy", Locale.getDefault()).format(new Date(millis));
-        }catch (NumberFormatException nfe) {
+
+            return new SimpleDateFormat("LLLL yyyy", Locale.getDefault()).format(new Date(date));
+        } catch (NumberFormatException nfe) {
             return "";
         }
     }
+
     public List<SpendingComponent> getComponents() {
         return components;
     }
@@ -54,7 +51,7 @@ public int getSpendingMonth(){
 
     public void setDate(String date) {
         try {
-            this.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(new SimpleDateFormat("dd/MM/yyyy").parse(date));
+            this.date = new SimpleDateFormat("dd/MM/yyyy").parse(date).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -65,12 +62,10 @@ public int getSpendingMonth(){
     }
 
     public String getDate() {
-        try {
-            Long millis = Long.parseLong(date);
-            return new SimpleDateFormat("dd/MM/yyyy").format(new Date(millis));
-        }catch (NumberFormatException nfe) {
-            return date;
-        }
+
+        return new SimpleDateFormat("dd/MM/yyyy").format(new Date(date));
+
+
     }
 
     public String getPhoto() {
@@ -109,15 +104,17 @@ public int getSpendingMonth(){
         this.name = name;
 
     }
-    private Money getSumTest(){
+
+    private Money getSumTest() {
         try {
             return new Money(Integer.parseInt(name));
-        } catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             return new Money(0);
         }
     }
-    public Money getSum (){
-        if(summ == null) {
+
+    public Money getSum() {
+        if (summ == null) {
             if (components == null && BuildConfig.DEBUG) {
                 return getSumTest();
             }

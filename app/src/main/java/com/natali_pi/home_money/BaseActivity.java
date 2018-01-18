@@ -75,8 +75,12 @@ public class BaseActivity extends AppCompatActivity {
     }
     public void setupLabel(String text){
         TextView label = (TextView) findViewById(R.id.label);
-        label.setText(text);
-        label.setVisibility(View.VISIBLE);
+        if(text != null) {
+            label.setText(text);
+            label.setVisibility(View.VISIBLE);
+        } else {
+            label.setVisibility(View.GONE);
+        }
     }
 
     public void setupSideDrawer (){
@@ -114,7 +118,13 @@ public class BaseActivity extends AppCompatActivity {
     }
     protected void setHighlightedText(String text){
         TextView highlitedText = (TextView) findViewById(R.id.highlitedText);
-        highlitedText.setText(text);
+        if(text != null){
+            highlitedText.setVisibility(View.VISIBLE);
+            highlitedText.setText(text);
+        } else {
+            highlitedText.setVisibility(View.GONE);
+        }
+
     }
     protected BackOnPress getBackAction(){
         return new BackOnPress();

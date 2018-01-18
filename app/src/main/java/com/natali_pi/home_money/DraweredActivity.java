@@ -29,9 +29,11 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public abstract class DraweredActivity extends BaseActivity {
     abstract protected void onBitmapLoaded(TAG tag, Bitmap bitmap);
-    public enum TAG{
+
+    public enum TAG {
         AVATAR
     }
+
     @Override
     public void setupSideDrawer() {
         super.setupSideDrawer();
@@ -56,7 +58,7 @@ public abstract class DraweredActivity extends BaseActivity {
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(DataBase.getInstance().getHuman().getName());
         TextView familyName = (TextView) findViewById(R.id.familyName);
-familyName.setText("" + DataBase.getInstance().getHuman().getFamilyName());
+        familyName.setText("" + DataBase.getInstance().getHuman().getFamilyName());
 
         ImageView settings = (ImageView) getDrawer().findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
  */
 
 public abstract class BaseFragment extends Fragment {
+    public static final String DATA = "DATA";
     private LayoutInflater inflater;
     private ViewGroup container;
     private Bundle savedInstanceState;

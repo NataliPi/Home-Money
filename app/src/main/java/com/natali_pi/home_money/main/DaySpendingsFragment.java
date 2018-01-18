@@ -273,7 +273,7 @@ public class DaySpendingsFragment extends BaseFragment {
 
         view.setOnClickListener((v) -> {
             Intent intent = new Intent(getActivity(), SpendedActivity.class);
-            intent.putExtra(DATA, spending);
+            intent.putExtra(DATA, spending.getId());
             startActivity(intent);
         });
         switch (size) {

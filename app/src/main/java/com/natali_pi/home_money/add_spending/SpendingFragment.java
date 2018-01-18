@@ -34,8 +34,9 @@ public class SpendingFragment extends BaseFragment {
     private SpendingPresenter presenter = SpendingPresenter.getInstance();
     private DropdownView currency;
     private EditText price;
+    private ListView componentsHolder;
     boolean calculateSumm = true;
-
+    private String id;
     @Override
     protected void resolveDaggerDependencies() {
 
@@ -71,6 +72,28 @@ public class SpendingFragment extends BaseFragment {
 
         date = (DropdownView) root.findViewById(R.id.date);
         date.setTodayDate();
+        componentsHolder = (ListView) root.findViewById(R.id.componentsHolder);
+        Spending spending;
+        if(getArguments() != null && (spending = (Spending)getArguments().getSerializable(DATA)) != null){
+            id = spending.getId();
+            name.setText(spending.getName());
+            date.setText(spending.getDate());
+            price.setText(spending.getSum().toString());
+
+            Picasso.with(getActivity()).load(spending.getPhoto())
+                    .transform(new CropCircleTransformation())
+                    .placeholder(R.drawable.photo)
+                    .into(spendPhoto);
+            componentsAdapter = new ComponentsAdapter(getActivity(), spending.getComponents(), true);
+        } else {
+            componentsAdapter = new ComponentsAdapter(getActivity(), null, true);
+        }
+        componentsHolder.setAdapter(componentsAdapter);
+        componentsAdapter.setSummListener((summ) -> {
+            if (calculateSumm) {
+                price.setText(summ.toString());
+            }
+        });
         price.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -95,16 +118,6 @@ public class SpendingFragment extends BaseFragment {
             }
         });
         LinearLayout addComponent = (LinearLayout) root.findViewById(R.id.addComponent);
-
-        final ListView componentsHolder = (ListView) root.findViewById(R.id.componentsHolder);
-
-        componentsAdapter = new ComponentsAdapter(getActivity(), null, true);
-        componentsHolder.setAdapter(componentsAdapter);
-        componentsAdapter.setSummListener((summ) -> {
-            if (calculateSumm) {
-                price.setText(summ.toString());
-            }
-        });
         addComponent.setOnClickListener((View view) -> {
             componentsAdapter.addSpendingComponent();
         });
@@ -115,6 +128,7 @@ public class SpendingFragment extends BaseFragment {
 
     public Spending getSpending() {
         Spending spending = new Spending(name.getText().toString());
+        spending.setId(id);
         spending.setDate(date.getData());
         if(!calculateSumm) {
             spending.setSumm(new Money(price.getText().toString(), currency.getData()));
@@ -122,6 +136,4 @@ public class SpendingFragment extends BaseFragment {
         spending.setComponents(componentsAdapter.getComponents());
         return spending;
     }
-
-
 }

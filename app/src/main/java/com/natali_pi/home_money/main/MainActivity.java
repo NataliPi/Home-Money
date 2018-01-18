@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends DraweredActivity {
     MainPresenter presenter;
-
+    List<DaySpendingsFragment> fragments = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,21 +31,24 @@ public class MainActivity extends DraweredActivity {
         setupLabel(getString(R.string.last_spendings));
         setupSideDrawer();
 
-        setOptionButtonListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        setOptionButtonListener((v)-> {
                 Intent intent = new Intent(MainActivity.this, SpendingActivity.class);
                 startActivity(intent);
-            }
         });
         hideHighlight();
-        setupScroller();
+
 
     }
 
-    List<DaySpendingsFragment> fragments = new ArrayList<>();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupScroller();
+    }
 
     private void setupScroller() {
+        ((ViewGroup)findViewById(R.id.list)).removeAllViews();
+        fragments.removeAll(fragments);
         final TextView dateText = (TextView) findViewById(R.id.dateText);
 
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);

@@ -8,6 +8,7 @@ import com.natali_pi.home_money.BaseFragment;
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.login.LoginActivity;
 import com.natali_pi.home_money.models.Category;
+import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.utils.DataBase;
 import com.natali_pi.home_money.utils.OneButtonDialog;
 
@@ -57,5 +58,15 @@ public class CategoryFragment extends BaseFragment {
                         .build();
             }
         }));
+        Spending spending;
+        if(getArguments() != null && (spending = (Spending)getArguments().getSerializable(DATA)) != null){
+                ((CategoryAdapter) list.getAdapter()).setCategory(spending.getCategory());
+            }
+        
     }
+    /*private String id;
+    public void setCategory(String id){
+        this.id = id;
+    }*/
+
 }
