@@ -30,6 +30,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/name"
                 style="@style/standard_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,15 +40,13 @@
                 android:textSize="@dimen/text_small" />
 
             <EditText
+                android:id="@+id/familyName"
                 style="@style/standard_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/surname"
                 android:inputType="text"
                 android:textSize="@dimen/text_small" />
-
-
-
         </LinearLayout>
     </LinearLayout>
     <TextView android:layout_width="match_parent"
@@ -63,14 +62,15 @@
         android:orientation="vertical"
 
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -78,20 +78,20 @@
                     android:text="@string/currency"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/darkViolet"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"/>
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/uah"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/lightGray"
-                    android:layout_marginLeft="16dp"
                     />
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -99,22 +99,21 @@
                     android:text="@string/notification"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/darkViolet"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
                     android:id="@+id/textView" />
 
                 <Switch
-                    android:id="@+id/switch1"
+                    android:id="@+id/notificationsSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/textView"
-                    android:layout_marginRight="16dp"
+
                     />
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -122,36 +121,39 @@
                     android:text="@string/passsett"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/darkViolet"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
                     android:id="@+id/password_setting" />
 
                 <Switch
-                    android:id="@+id/switch2"
+                    android:id="@+id/passwordSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/password_setting"
-                    android:layout_marginRight="16dp"
                     />
             </RelativeLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/premium"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/darkViolet"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"/>
-
-            </LinearLayout>
+                    />
+                <Switch
+                    android:id="@+id/premiumSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -159,13 +161,12 @@
                     android:text="@string/about"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/darkViolet"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"/>
+                    />
 
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+
 

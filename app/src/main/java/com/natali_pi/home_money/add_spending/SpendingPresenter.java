@@ -21,6 +21,9 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
     private Bitmap spendingPicture = null; //TODO:  Make Weak reference?
     private static SpendingPresenter instance = new SpendingPresenter();
 
+    private SpendingPresenter() {
+    }
+
     public static SpendingPresenter getInstance() {
         return instance;
     }
@@ -48,6 +51,11 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
 
     }
 
+    @Override
+    public void onStop() {
+        spendingPicture = null;
+        category = null;
+    }
 
     public Category getCategory() {
         return category;
@@ -63,8 +71,8 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
                 if (spendingPicture == null) {
                     getView().finish();
                 } else {
-                     Bitmap spendingPicture = this.spendingPicture;
-                    uploadSpendingPhoto(spending, spendingPicture, ()->{
+                    Bitmap spendingPicture = this.spendingPicture;
+                    uploadSpendingPhoto(spending, spendingPicture, () -> {
                         getView().finish();
                     });
                 }

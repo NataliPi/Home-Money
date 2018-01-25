@@ -12,9 +12,8 @@ public class PasswordProtection extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setBaseContentView(R.layout.activity_password_protection);
-    }
-    Switch switch1 = (Switch) findViewById(R.id.switch1);
 
-    Switch switch2 = (Switch) findViewById(R.id.switch2);
+    }
+
 
 }

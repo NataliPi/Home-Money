@@ -38,10 +38,21 @@ public abstract class DraweredActivity extends BaseActivity {
     public void setupSideDrawer() {
         super.setupSideDrawer();
         final ImageView imageView = (ImageView) getDrawer().findViewById(R.id.imageView);
-
-        Picasso.with(this).load(DataBase.getInstance().getHuman().getPhoto())
+        TextView name = (TextView) findViewById(R.id.name);
+        TextView familyName = (TextView) findViewById(R.id.familyName);
+        /*Picasso.with(this).load(DataBase.getInstance().getHuman().getPhoto())
                 .transform(new CropCircleTransformation())
-                .into(imageView);
+                .placeholder(R.drawable.photo)
+                .into(imageView);*/
+        DataBase.getInstance().subscribeOnHuman((human -> {
+
+            Picasso.with(this).load(human.getPhoto())
+                    .transform(new CropCircleTransformation())
+                    .placeholder(R.drawable.photo)
+                    .into(imageView);
+            name.setText(human.getName());
+            familyName.setText(human.getFamilyName());
+        }));
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,16 +60,15 @@ public abstract class DraweredActivity extends BaseActivity {
                         .setOnPickResult(new IPickResult() {
                             @Override
                             public void onPickResult(PickResult result) {
-                                imageView.setImageBitmap(result.getBitmap());
+                                imageView.setImageBitmap(new CropCircleTransformation().transform(result.getBitmap().copy(null, false)));
                                 onBitmapLoaded(TAG.AVATAR, result.getBitmap());
                             }
                         }).show(DraweredActivity.this);
             }
         });
-        TextView name = (TextView) findViewById(R.id.name);
-        name.setText(DataBase.getInstance().getHuman().getName());
-        TextView familyName = (TextView) findViewById(R.id.familyName);
-        familyName.setText("" + DataBase.getInstance().getHuman().getFamilyName());
+
+
+
 
         ImageView settings = (ImageView) getDrawer().findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {

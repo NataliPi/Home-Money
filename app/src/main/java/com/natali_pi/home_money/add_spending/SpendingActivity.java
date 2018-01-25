@@ -57,6 +57,12 @@ public class SpendingActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
+
     private void inputSpendingData(Spending spending) {
         Bundle data = new Bundle();
         data.putSerializable(DATA, spending);

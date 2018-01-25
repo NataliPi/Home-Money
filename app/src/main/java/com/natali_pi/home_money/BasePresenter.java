@@ -68,4 +68,5 @@ public class BasePresenter<ViewType extends BaseActivity> {
     public interface OnNext<Type> {
         void onNext(Type data);
     }
+    public void onStop(){}
 }

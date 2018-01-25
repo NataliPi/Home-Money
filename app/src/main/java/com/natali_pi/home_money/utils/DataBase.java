@@ -10,6 +10,10 @@ import com.natali_pi.home_money.models.LoginData;
 
 import java.io.ByteArrayOutputStream;
 
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
+
 /**
  * Created by Natali-Pi on 09.12.2017.
  */
@@ -18,6 +22,7 @@ public class DataBase {
 
     private static DataBase instance = new DataBase();
 
+    Subject<Human> humanObservable = PublishSubject.create();
     private DataBase() {
     }
 
@@ -34,6 +39,21 @@ public class DataBase {
 
     public Human getHuman() {
         return human;
+    }
+    public void subscribeOnHuman(Consumer<Human> action){
+
+        humanObservable.subscribe(action);
+        try {
+            action.accept(human);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setHuman(Human human) {
+        this.human = human;
+        humanObservable.onNext(human);
     }
 
     private String convertBitmapToString(Bitmap photo) {

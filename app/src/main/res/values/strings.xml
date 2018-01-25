@@ -66,6 +66,8 @@
     <string name="cancel">Отмена</string>
     <string name="download_image">Загрузка фотографии</string>
     <string name="add">Добавить</string>
+    <string name="password">Пароль</string>
+    <string name="password_again">Подтверждение пароля</string>
 
 
     ;

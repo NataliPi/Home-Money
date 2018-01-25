@@ -57,6 +57,11 @@ public class Api implements BaseAPI {
     }
 
     @Override
+    public Observable<Message> updateProfile(Human data) {
+        return api.updateProfile(data).compose(new AsyncTransformer<>());
+    }
+
+    @Override
     public Observable<Message> prepareInvitation(String familyId) {
         return api.prepareInvitation(familyId).compose(new AsyncTransformer<>());
     }

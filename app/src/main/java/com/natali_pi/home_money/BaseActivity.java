@@ -143,12 +143,16 @@ public class BaseActivity extends AppCompatActivity {
 
     public void onFinishLoading() {
         ProgressBar progress = (ProgressBar) findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
+        if(progress != null) {
+            progress.setVisibility(View.GONE);
+        }
     }
 
     public void onStartLoading() {
         ProgressBar progress = (ProgressBar) findViewById(R.id.progress);
-        progress.setVisibility(View.VISIBLE);
+        if(progress != null) {
+            progress.setVisibility(View.VISIBLE);
+        }
     }
 
     protected class BackOnPress implements View.OnClickListener{

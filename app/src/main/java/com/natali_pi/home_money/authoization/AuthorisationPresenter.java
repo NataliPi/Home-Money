@@ -45,8 +45,12 @@ public class AuthorisationPresenter extends BasePresenter<AuthorisationActivity>
     public void login(Human human){
         api.login(human).subscribe(getObserver(true, (data)->{
             //TODO: Add message show on error
-            DataBase.getInstance().login(data);
-            getView().toMainActivity();
+            if(!data.getHuman().getSettings().isPasswordProtected()) {
+                DataBase.getInstance().login(data);
+                getView().toMainActivity();
+            } else {
+                getView().showAuthScreen();
+            }
         }));
     }
 }

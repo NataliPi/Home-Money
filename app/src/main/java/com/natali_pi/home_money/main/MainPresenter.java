@@ -30,7 +30,7 @@ public class MainPresenter extends BasePresenter<MainActivity> {
         }
         api.uploadPicture(new Message(bitmap), id)
                 .subscribe(getObserver(true, (response) -> {
-                    if (!response.getResult().equals("failure")) {
+                    if (!response.isFailure()) {
                         DataBase.getInstance().getHuman().setPhoto(response.getResult());
                     }
                 }));

@@ -62,7 +62,7 @@ public class CategoryFragment extends BaseFragment {
         if(getArguments() != null && (spending = (Spending)getArguments().getSerializable(DATA)) != null){
                 ((CategoryAdapter) list.getAdapter()).setCategory(spending.getCategory());
             }
-        
+
     }
     /*private String id;
     public void setCategory(String id){

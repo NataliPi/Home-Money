@@ -44,6 +44,9 @@ public interface BaseAPI {
     @POST("/rest/picture/upload/{familyId}/{id}")
     Observable<Message> uploadPicture(@Body Message message, @Path("familyId") String familyId, @Path("id") String id);
 
+    @POST("/rest/settings/profile")
+    Observable<Message> updateProfile(@Body Human data);
+
     @GET("/rest/family/invite/{familyId}")
     Observable<Message> prepareInvitation(@Path("familyId") String familyId);
 

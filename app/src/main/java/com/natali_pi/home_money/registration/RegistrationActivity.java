@@ -45,7 +45,9 @@ public class RegistrationActivity extends BaseActivity {
         EditText password = (EditText) findViewById(R.id.password);
         EditText repeatPassword = (EditText) findViewById(R.id.repeatPassword);
         EditText name = (EditText) findViewById(R.id.name);
+        EditText surname = (EditText) findViewById(R.id.surname);
         EditText email = (EditText) findViewById(R.id.email);
+
 
         //* //TODO COMMENT THIS LINES
            name.setText("Константин");
@@ -62,6 +64,7 @@ public class RegistrationActivity extends BaseActivity {
                     human.setPassword(password.getText().toString());
                     human.setName(name.getText().toString());
                     human.setEmail(email.getText().toString());
+                    human.setFamilyName(surname.getText().toString());
                     presenter.register(human);
                 } else {
                     showMessage("Введенные пароли не совпадают");

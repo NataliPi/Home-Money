@@ -63,12 +63,13 @@ public class SpendedActivity extends BaseActivity{
         TextView sumText = (TextView) findViewById(R.id.sumText);
         sumText.setText(spending.getSum().toString() + " " + spending.getSum().getCurrency());
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.photo);
-        if(spending.getPhoto() != null){
+
             Picasso.with(this).load(spending.getPhoto())
                     .transform(new CropCircleTransformation())
+                    .placeholder(R.drawable.photo)
                     .into(imageView);
-        }
+
+
         ListView componentsHolder = (ListView) findViewById(R.id.componentsHolder);
         ComponentsAdapter componentsAdapter = new ComponentsAdapter(SpendedActivity.this, spending.getComponents(), false);
         componentsHolder.setAdapter(componentsAdapter);

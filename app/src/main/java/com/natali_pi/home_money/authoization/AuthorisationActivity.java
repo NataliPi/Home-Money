@@ -24,30 +24,32 @@ AuthorisationPresenter presenter = AuthorisationPresenter.getInstance();
         presenter.setView(this);
         Human human = presenter.getOldAccount();
         if(human == null) {
-            setContentView(R.layout.activity_authorisation);
-
-            Button login = (Button) findViewById(R.id.login);
-            Button registration = (Button) findViewById(R.id.registration);
-            login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(AuthorisationActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            });
-            registration.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(AuthorisationActivity.this, RegistrationActivity.class);
-                    startActivity(intent);
-                }
-            });
+            showAuthScreen();
         } else {
             setContentView(R.layout.empty);
             presenter.login(human);
         }
     }
+public void showAuthScreen(){
+    setContentView(R.layout.activity_authorisation);
 
+    Button login = (Button) findViewById(R.id.login);
+    Button registration = (Button) findViewById(R.id.registration);
+    login.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(AuthorisationActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+    });
+    registration.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(AuthorisationActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+        }
+    });
+}
     public void toMainActivity() {
         Intent intent = new Intent (AuthorisationActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
