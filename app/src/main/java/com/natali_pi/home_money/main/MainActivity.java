@@ -50,10 +50,12 @@ public class MainActivity extends DraweredActivity {
         ((ViewGroup)findViewById(R.id.list)).removeAllViews();
         fragments.removeAll(fragments);
         final TextView dateText = (TextView) findViewById(R.id.dateText);
-
+        TextView noSpendingsMessage = (TextView) findViewById(R.id.noSpendingsMessage);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         if (DataBase.getInstance().getFamily().getSpendings() != null &&
                 DataBase.getInstance().getFamily().getSpendings().size() > 0) {
+            dateText.setVisibility(View.VISIBLE);
+            noSpendingsMessage.setVisibility(View.GONE);
             ArrayList<ArrayList<Spending>> spendingsByMMonth = DataBase.getInstance().getFamily().getSpendingsByMMonth();
             for (int i = 0; i < spendingsByMMonth.size(); i++) {
 
