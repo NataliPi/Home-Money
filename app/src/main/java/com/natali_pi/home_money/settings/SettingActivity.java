@@ -29,6 +29,7 @@ public class SettingActivity extends BaseActivity {
         setupToolbar(R.drawable.arrow, "");
         setupOption(R.drawable.ok);
         setHighlightedText(getString(R.string.settings));
+        setNavigationButtonListener(getBackAction());
         EditText name = (EditText) findViewById(R.id.name);
         EditText familyName = (EditText) findViewById(R.id.familyName);
         //TODO: Продумать смены фамилии семьи и человека.
