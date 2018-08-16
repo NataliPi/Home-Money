@@ -14,6 +14,8 @@ import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.spended.SpendedActivity;
+import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class DaySpendingsFragment extends BaseFragment {
     private int margin = -1;
     private TextView dateText;
     private List<Spending> spendings;
+    private PURPOSE purpose;
 
     public int getDatePosition() {
         int[] pos = new int[2];
@@ -50,7 +53,8 @@ public class DaySpendingsFragment extends BaseFragment {
         return R.layout.fragment_day_spendings;
     }
 
-    public void setSpendings(List<Spending> spendings) {
+    public void setSpendings(PURPOSE purpose, List<Spending> spendings) {
+        this.purpose = purpose;
         this.spendings = spendings;
     }
 
@@ -81,6 +85,7 @@ public class DaySpendingsFragment extends BaseFragment {
     @Override
     protected View onCreateView(View root) {
         dateText = (TextView) root.findViewById(R.id.dateText);
+        if(spendings != null)
         dateText.setText(spendings.get(0).getSpendingMonthText());
         LinearLayout layout = (LinearLayout) root.findViewById(R.id.dayLayout);
         LinearLayout line = new LinearLayout(getActivity());
@@ -264,15 +269,18 @@ public class DaySpendingsFragment extends BaseFragment {
         ImageView imageView = view.findViewById(R.id.image);
         TextView name = (TextView) view.findViewById(R.id.name);
         name.setText(spending.getName());
-        imageView.setImageResource(R.drawable.photo);
+
         if (spending.getPhoto() != null) {
-            Picasso.with(getActivity()).load(spending.getPhoto()).into(imageView);
+            Picasso.with(getActivity()).load(spending.getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        } else {
+            Picasso.with(getActivity()).load(DataBase.getInstance().getCategoryById(spending.getCategory()).getPhoto()).placeholder(R.drawable.photo).into(imageView);
         }
 
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         view.setOnClickListener((v) -> {
             Intent intent = new Intent(getActivity(), SpendedActivity.class);
+            intent.putExtra(MainActivity.TAG_PURPOSE, purpose.ordinal());
             intent.putExtra(DATA, spending.getId());
             startActivity(intent);
         });

@@ -121,7 +121,7 @@ android:id="@+id/currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_component"
-                    android:textSize="@dimen/text_small"></TextView>
+                    android:textSize="@dimen/text_small"/>
 
             </LinearLayout>
 
@@ -132,7 +132,7 @@ android:id="@+id/currency"
                 android:layout_marginRight="@dimen/standard_margin"
                 android:background="@color/darkViolet" />
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/componentsHolder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

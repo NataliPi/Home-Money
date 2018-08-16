@@ -23,8 +23,14 @@ public class Money implements Serializable {
     bill = i;
     }
     public Money(String value, String currency) {
-        parse(Float.parseFloat(value));
-        this.currency = Currency.valueOf(currency);
+        try {
+            parse(Float.parseFloat(value));
+        }catch (Exception e){
+        coins = 0;
+        bill = 0;
+        }
+            this.currency = Currency.valueOf(currency);
+
     }
     public Money(float value) {
         parse(value);
@@ -49,6 +55,14 @@ private void parse(float value){
         return bill+"."+coins;
     }
 
+    public String getPureMoney(){
+        return  bill +" "+ currency;
+    }
+
+    public int getBill() {
+        return bill;
+    }
+
     public Money() {
         coins=0;
         bill=0;
@@ -67,11 +81,18 @@ private void parse(float value){
     }
     public static Money substract(Money first, Money second){
         Money result = new Money();
-        result.bill = first.bill-second.bill;
-        result.coins = first.coins-second.coins;
-        if (result.coins <0){
-            result.coins=result.coins+100;
-            result.bill=result.bill-1;
+        if(first != null && second != null) {
+
+            result.bill = first.bill - second.bill;
+            result.coins = first.coins - second.coins;
+            if (result.coins < 0) {
+                result.coins = result.coins + 100;
+                result.bill = result.bill - 1;
+            }
+        } else if (first != null && second == null ){
+            return first;
+        } else if (first == null && second != null){
+            return second.getNegative();
         }
         return result;
     }
@@ -93,8 +114,14 @@ private void parse(float value){
             }
         }
     }
-
+public float getAsFloat(){
+        return bill + (coins/100);
+}
     public Money divideBy(float v) {
-    return new Money(bill / 3) ;
+    return new Money(bill / v) ;
+    }
+
+    public Money getNegative() {
+        return new Money(-getAsFloat());
     }
 }

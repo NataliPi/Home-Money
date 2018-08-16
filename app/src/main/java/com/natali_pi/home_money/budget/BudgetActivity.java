@@ -32,8 +32,8 @@ public class BudgetActivity extends DraweredActivity {
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        setTabLayout(0,getString(R.string.chooseCategory));
-        setTabLayout(1,getString(R.string.baseData));
+        setTabLayout(0,getString(R.string.may_budget));
+        setTabLayout(1,getString(R.string.family_budget));
 
     }
 

@@ -2,10 +2,13 @@ package com.natali_pi.home_money;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.natali_pi.home_money.budget.BudgetActivity;
@@ -16,7 +19,9 @@ import com.natali_pi.home_money.search.Search;
 import com.natali_pi.home_money.settings.SettingActivity;
 import com.natali_pi.home_money.statistic.StatisticActivity;
 import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
@@ -40,16 +45,14 @@ public abstract class DraweredActivity extends BaseActivity {
         final ImageView imageView = (ImageView) getDrawer().findViewById(R.id.imageView);
         TextView name = (TextView) findViewById(R.id.name);
         TextView familyName = (TextView) findViewById(R.id.familyName);
-        /*Picasso.with(this).load(DataBase.getInstance().getHuman().getPhoto())
-                .transform(new CropCircleTransformation())
-                .placeholder(R.drawable.photo)
-                .into(imageView);*/
+        LinearLayout background = (LinearLayout) findViewById(R.id.background);
         DataBase.getInstance().subscribeOnHuman((human -> {
 
             Picasso.with(this).load(human.getPhoto())
                     .transform(new CropCircleTransformation())
                     .placeholder(R.drawable.photo)
                     .into(imageView);
+
             name.setText(human.getName());
             familyName.setText(human.getFamilyName());
         }));
@@ -86,7 +89,8 @@ public abstract class DraweredActivity extends BaseActivity {
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
                 Intent intent = new Intent(DraweredActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.putExtra(MainActivity.TAG_PURPOSE, PURPOSE.SPENDED.ordinal());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                 startActivity(intent);
             }
         });
@@ -96,8 +100,10 @@ public abstract class DraweredActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 v.setBackgroundResource(R.color.yellow);
-                Intent intent = new Intent(DraweredActivity.this, PlannedSpendingActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                Intent intent = new Intent(DraweredActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.TAG_PURPOSE, PURPOSE.PLANED.ordinal());
+                //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                 startActivity(intent);
             }
         });

@@ -7,6 +7,8 @@ import com.natali_pi.home_money.models.Category;
 import com.natali_pi.home_money.models.Family;
 import com.natali_pi.home_money.models.Human;
 import com.natali_pi.home_money.models.LoginData;
+import com.natali_pi.home_money.models.Money;
+import com.natali_pi.home_money.models.Spending;
 
 import java.io.ByteArrayOutputStream;
 
@@ -23,6 +25,7 @@ public class DataBase {
     private static DataBase instance = new DataBase();
 
     Subject<Human> humanObservable = PublishSubject.create();
+    Subject<Family> famillySpendingsObservable = PublishSubject.create();
     private DataBase() {
     }
 
@@ -50,12 +53,31 @@ public class DataBase {
         }
 
     }
+    public void subscribeOnSpendings(Consumer<Family> action){
+
+        famillySpendingsObservable.subscribe(action);
+        try {
+
+            action.accept(family);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void setHuman(Human human) {
         this.human = human;
         humanObservable.onNext(human);
     }
-
+    public void setFamillyLimit(Money money) {
+        this.family.setLimit(money);
+        famillySpendingsObservable.onNext(family);
+    }
+public void setSpending(PURPOSE purpose, Spending spending){
+        family.setSpending(purpose, spending);
+        famillySpendingsObservable.onNext(family);
+}
     private String convertBitmapToString(Bitmap photo) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         String photoBase64 = null;
@@ -68,12 +90,15 @@ public class DataBase {
     }
 
     public String getCurrentCurrency() {
-        return "UAH";
+        return human.getSettings().getDefaultCurrency().getValue();
     }
-
+    public Currency getCurrentCurrencyValue() {
+        return human.getSettings().getDefaultCurrency();
+    }
     public void login(LoginData data) {
         family = data.getFamily();
         human = data.getHuman();
+
     }
 
 

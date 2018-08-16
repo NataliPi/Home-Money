@@ -12,6 +12,12 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        float max = 314;
+        String tempMax = ""+(int)max;
+        if (tempMax.length() > 2) {
+            max = max - (max % (int)Math.pow(10, tempMax.length()-1));
+            max += Math.pow(10, tempMax.length() -1);
+        }
+        assertEquals(400, (int)max);
     }
 }

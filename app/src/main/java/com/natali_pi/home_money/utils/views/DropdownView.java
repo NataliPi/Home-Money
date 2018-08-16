@@ -15,6 +15,7 @@ import com.natali_pi.home_money.utils.PickerDialog;
 import com.natali_pi.home_money.utils.TextPickerDialog;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,26 +49,28 @@ public class DropdownView extends android.support.v7.widget.AppCompatEditText {
         prepareLists();
     }
 
-public void setDefault(String data){
+    public void setDefault(String data) {
         setText(data);
-    for (int i = 0; i < items.size(); i++) {
-        if(items.get(i).equals(data)){
-            selectedKeys[0] = i;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).equals(data)) {
+                selectedKeys[0] = i;
+            }
         }
     }
-}
-public void setDefaultFirst(String data){
-    setText(data);
 
-    for (int i = 0; i < items.size(); i++) {
-        if(items.get(i).equals(data)){
-            String value = items.get(i);
-            items.remove(i);
-            items.add(0, value);
-            selectedKeys[0] = 0;
+    public void setDefaultFirst(String data) {
+        setText(data);
+
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).equals(data)) {
+                String value = items.get(i);
+                items.remove(i);
+                items.add(0, value);
+                selectedKeys[0] = 0;
+            }
         }
     }
-}
+
     public int getCoosenIndex() {
         return selectedKeys[0];
     }
@@ -83,18 +86,37 @@ public void setDefaultFirst(String data){
 
     }
 
-public void setTodayDate(){
-    selectedKeys = new int[3];
-    SimpleDateFormat day = new SimpleDateFormat("dd");
-    SimpleDateFormat month = new SimpleDateFormat("MM");
-    SimpleDateFormat year = new SimpleDateFormat("yyyy");
-    Date date = new Date();
-    selectedKeys[0] = Integer.parseInt(year.format(date));
-    selectedKeys[1] = Integer.parseInt(month.format(date))-1;
-    selectedKeys[2] = Integer.parseInt(day.format(date));
-    setText(getData());
-}
+    public void setTodayDate() {
+        selectedKeys = new int[3];
+        SimpleDateFormat day = new SimpleDateFormat("dd");
+        SimpleDateFormat month = new SimpleDateFormat("MM");
+        SimpleDateFormat year = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        selectedKeys[0] = Integer.parseInt(year.format(date));
+        selectedKeys[1] = Integer.parseInt(month.format(date)) - 1;
+        selectedKeys[2] = Integer.parseInt(day.format(date));
+        setText(getData());
+    }
 
+    public void setDate(String dateString) {
+        selectedKeys = new int[3];
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        try {
+
+            SimpleDateFormat day = new SimpleDateFormat("dd");
+            SimpleDateFormat month = new SimpleDateFormat("MM");
+            SimpleDateFormat year = new SimpleDateFormat("yyyy");
+            Date date = dateFormat.parse(dateString);
+            selectedKeys[0] = Integer.parseInt(year.format(date));
+            selectedKeys[1] = Integer.parseInt(month.format(date)) - 1;
+            selectedKeys[2] = Integer.parseInt(day.format(date));
+            setText(getData());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * As this is a EditText, first click will fire OnFocusChange,
@@ -197,14 +219,15 @@ public void setTodayDate(){
     }
 
     public String getData() {
-
-        if (isDatePicker) {
-            return getDateString(selectedKeys[0], selectedKeys[1], selectedKeys[2]);
-        } else {
-
-            return items.get(selectedKeys[0]);
-        }
-
+        if (selectedKeys.length > 0) {
+            if (isDatePicker) {
+                return getDateString(selectedKeys[0], selectedKeys[1], selectedKeys[2]);
+            } else {
+                if (selectedKeys.length == 1) {
+                    return items.get(selectedKeys[0]);
+                }
+            }
+        } return "";
     }
 
     public static String getDateString(int year, int month, int day) {

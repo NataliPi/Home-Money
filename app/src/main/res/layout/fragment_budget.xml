@@ -57,19 +57,33 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/balanceMoney"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="475"
                         android:textColor="@color/darkViolet"
                         android:textSize="@dimen/text_big"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/balanceCurrency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="грн"
                         android:textColor="@color/darkViolet"
-                        android:textSize="@dimen/text_big" />
+                        android:textSize="@dimen/text_big"  />
+                    <TextView
+                        android:id="@+id/balanceError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/budget_error"
+                        android:textColor="@color/darkViolet"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:layout_marginRight="@dimen/standard_margin"
+                        android:textSize="@dimen/text_small"
+                        android:visibility="gone"
+                       />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -106,6 +120,7 @@
                     android:src="@drawable/pen" />
 
                 <TextView
+                    android:id="@+id/planned_money"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -133,6 +148,7 @@
                 android:background="@color/yellow">
 
                 <TextView
+                    android:id="@+id/spendedMoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
@@ -158,7 +174,7 @@
                 android:background="@color/yellow">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/planedSpendings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"

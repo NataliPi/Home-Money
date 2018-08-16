@@ -10,6 +10,7 @@ public class Category {
     private String id;
     private String photo;
     private String name;
+    private boolean isHiden;
 
     public Category(String filliner) {
         this.name = filliner;
@@ -36,8 +37,25 @@ public boolean isStandard(){
             return null;
         }
     }
+    public String getRawPhoto() {
+
+            return photo;
+
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isHiden() {
+        return isHiden;
+    }
+
+    public void setHiden(boolean hiden) {
+        isHiden = hiden;
     }
 }

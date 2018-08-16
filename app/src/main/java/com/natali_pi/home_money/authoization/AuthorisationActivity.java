@@ -15,6 +15,7 @@ import com.natali_pi.home_money.main.MainActivity;
 import com.natali_pi.home_money.models.Human;
 import com.natali_pi.home_money.registration.RegistrationActivity;
 import com.natali_pi.home_money.utils.OneButtonDialog;
+import com.natali_pi.home_money.utils.PURPOSE;
 
 public class AuthorisationActivity extends BaseActivity {
 AuthorisationPresenter presenter = AuthorisationPresenter.getInstance();
@@ -52,6 +53,7 @@ public void showAuthScreen(){
 }
     public void toMainActivity() {
         Intent intent = new Intent (AuthorisationActivity.this, MainActivity.class);
+        intent.putExtra(MainActivity.TAG_PURPOSE, PURPOSE.SPENDED.ordinal());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

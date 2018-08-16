@@ -9,6 +9,7 @@ import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.utils.Api;
 import com.natali_pi.home_money.utils.BaseAPI;
 import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
 
 /**
  * Created by Natali-Pi on 22.11.2017.
@@ -50,7 +51,32 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
         }
 
     }
+    public void updateCategory(Bitmap icon, Category category) {
 
+        String familyId = DataBase.getInstance().getFamily().getId();
+        api.addCategory(familyId, category.getId()!= null ? category.getId() : category.getName(), category.getName())
+                .subscribe(getObserver(true, (response) -> {
+                    category.setId(response.getResult());
+
+                    if (icon!= null) {
+                        api.uploadPicture(new Message(icon), familyId, response.getResult()).subscribe(getObserver(true, (iconResponce) -> {
+                            category.setPhoto(iconResponce.getResult());
+                            DataBase.getInstance().getFamily().updateCategory(category);
+                            getView().updateCategoriesList();
+
+
+                        }));
+                    } else {
+                        DataBase.getInstance().getFamily().updateCategory(category);
+                        getView().updateCategoriesList();
+                    }
+
+
+                }));
+
+
+
+    }
     @Override
     public void onStop() {
         spendingPicture = null;
@@ -61,13 +87,14 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
         return category;
     }
 
-    public void setSpending(Spending spending) {
+    public void setSpending(PURPOSE purpose, Spending spending) {
         spending.setBuyerId(DataBase.getInstance().getFamily().getId());
         spending.setCategory(category.getId());
-        api.setSpending(spending).subscribe(getObserver(true, (result) -> {
+        //TODO: send purpose
+        api.setSpending(purpose, spending).subscribe(getObserver(true, (result) -> {
             if (!result.isFailure()) {
                 spending.setId(result.getResult());
-                DataBase.getInstance().getFamily().setSpending(spending);
+                DataBase.getInstance().setSpending(purpose, spending);
                 if (spendingPicture == null) {
                     getView().finish();
                 } else {
@@ -84,6 +111,7 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
     public void uploadCategoryPhoto(Category category, Bitmap bitmap) {
         api.uploadPicture(new Message(bitmap), DataBase.getInstance().getFamily().getId(), category.getId())
                 .subscribe(getObserver(true, (result) -> {
+                    //DataBase.getInstance().getFamily().getCategoryById(category.getId());
                     category.setPhoto(result.getResult());
                     getView().updateCategoriesList();
                 }));
@@ -95,5 +123,16 @@ public class SpendingPresenter extends BasePresenter<SpendingActivity> {
                     spending.setPhoto(result.getResult());
                     onFinish.run();
                 }));
+    }
+
+    public void hideCategory(String id) {
+        //TODO: handle delete item
+        api.hideCategory(DataBase.getInstance().getFamily().getId(), id).subscribe(getObserver(false, (result)->{
+            if (result.isSuccess()){
+                DataBase.getInstance().getFamily().hideCategory(id);
+                getView().updateCategoriesList();
+            }
+        }));
+
     }
 }

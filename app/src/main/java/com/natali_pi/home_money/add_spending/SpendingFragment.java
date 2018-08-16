@@ -1,6 +1,8 @@
 package com.natali_pi.home_money.add_spending;
 
 import android.graphics.Bitmap;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -34,7 +36,7 @@ public class SpendingFragment extends BaseFragment {
     private SpendingPresenter presenter = SpendingPresenter.getInstance();
     private DropdownView currency;
     private EditText price;
-    private ListView componentsHolder;
+    private RecyclerView componentsHolder;
     boolean calculateSumm = true;
     private String id;
     @Override
@@ -72,26 +74,32 @@ public class SpendingFragment extends BaseFragment {
 
         date = (DropdownView) root.findViewById(R.id.date);
         date.setTodayDate();
-        componentsHolder = (ListView) root.findViewById(R.id.componentsHolder);
+        componentsHolder = (RecyclerView) root.findViewById(R.id.componentsHolder);
+        getBaseActivity().setUpItemTouchHelper(componentsHolder);
+        getBaseActivity().setUpAnimationDecoratorHelper(componentsHolder);
+        componentsHolder.setLayoutManager(new LinearLayoutManager(getActivity()));
         Spending spending;
         if(getArguments() != null && (spending = (Spending)getArguments().getSerializable(DATA)) != null){
             id = spending.getId();
             name.setText(spending.getName());
-            date.setText(spending.getDate());
+            date.setDate(spending.getDate());
+
             price.setText(spending.getSum().toString());
+            calculateSumm = false;
 
             Picasso.with(getActivity()).load(spending.getPhoto())
                     .transform(new CropCircleTransformation())
                     .placeholder(R.drawable.photo)
                     .into(spendPhoto);
-            componentsAdapter = new ComponentsAdapter(getActivity(), spending.getComponents(), true);
+            componentsAdapter = new ComponentsAdapter(spending.getComponents(), true);
         } else {
-            componentsAdapter = new ComponentsAdapter(getActivity(), null, true);
+            componentsAdapter = new ComponentsAdapter(null, true);
         }
         componentsHolder.setAdapter(componentsAdapter);
         componentsAdapter.setSummListener((summ) -> {
             if (calculateSumm) {
                 price.setText(summ.toString());
+                currency.setDefaultFirst(summ.getCurrency().getValue());
             }
         });
         price.addTextChangedListener(new TextWatcher() {
@@ -101,9 +109,20 @@ public class SpendingFragment extends BaseFragment {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if (charSequence.toString().equals("")) {
                     calculateSumm = true;
+                } else {
+                    if(charSequence.toString().contains(".") && charSequence.toString().split("\\.").length>1 &&charSequence.toString().split("\\.")[1].length() >=3){
+                        String[] parts = charSequence.toString().split("\\.");
+                        String result = parts[0] +"."+ parts[1].charAt(0) + parts[1].charAt(1);
+                        price.setText(result);
+                        if(start+1 < charSequence.length()) {
+                            price.setSelection(start + 1);
+                        }else {
+                            price.setSelection(charSequence.length()-1);
+                        }
+                    }
                 }
             }
 
@@ -119,9 +138,8 @@ public class SpendingFragment extends BaseFragment {
         });
         LinearLayout addComponent = (LinearLayout) root.findViewById(R.id.addComponent);
         addComponent.setOnClickListener((View view) -> {
-            componentsAdapter.addSpendingComponent();
+            componentsAdapter.addSpendingComponent(root);
         });
-
 
         return root;
     }
@@ -133,7 +151,7 @@ public class SpendingFragment extends BaseFragment {
         if(!calculateSumm) {
             spending.setSumm(new Money(price.getText().toString(), currency.getData()));
         }
-        spending.setComponents(componentsAdapter.getComponents());
+        spending.setComponents(componentsAdapter.getItems());
         return spending;
     }
 }

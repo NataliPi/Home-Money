@@ -41,6 +41,14 @@
             android:layout_height="wrap_content"
             />
         <ImageView
+            android:id="@+id/secondOptionButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:layout_toLeftOf="@+id/optionButton"
+            android:padding="4dp"
+            android:visibility="gone"/>
+        <ImageView
             android:id="@+id/optionButton"
             android:layout_width="40dp"
             android:layout_height="match_parent"

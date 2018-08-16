@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
@@ -13,9 +13,13 @@ import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
+import com.natali_pi.home_money.utils.views.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.natali_pi.home_money.main.MainActivity.TAG_PURPOSE;
 
 public class SpendingActivity extends BaseActivity {
 
@@ -24,11 +28,12 @@ public class SpendingActivity extends BaseActivity {
     SpendingPresenter presenter = SpendingPresenter.getInstance();
     private CategoryFragment categoryFragment = new CategoryFragment();
     private SpendingFragment spendingFragment = new SpendingFragment();
-
+    private PURPOSE purpose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        purpose = PURPOSE.values()[getIntent().getIntExtra(TAG_PURPOSE, 0)];
         presenter.setView(this);
         setBaseContentView(R.layout.activity_sliding);
         setupToolbar(R.drawable.arrow, "");
@@ -37,24 +42,75 @@ public class SpendingActivity extends BaseActivity {
         setupLabel(getString(R.string.add_spending));
         hideHighlight();
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         setOptionButtonListener((view -> {
             if (presenter.getCategory() != null) {
-                //TODO: Add Spending
-                presenter.setSpending(spendingFragment.getSpending());
+                presenter.setSpending(purpose, spendingFragment.getSpending());
             } else {
-                viewPager.setCurrentItem(0);
+                if (categoryFragment.isEditable()){
+                    categoryFragment.finishEditable();
+                } else {
+                    viewPager.setCurrentItem(0);
+                }
             }
         }));
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setTabLayout(0, getString(R.string.chooseCategory));
         setTabLayout(1, getString(R.string.baseData));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                    if (tabLayout.getTabAt(0) == tab) {
+                        setupSecondOption(R.drawable.pen);
+                    } else {
+
+                            hideSecondOption();
+                            setupOption(R.drawable.plus);
+
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         if (getIntent().hasExtra(DATA)) {
             inputSpendingData((Spending) getIntent().getSerializableExtra(DATA));
+        } else {
+            setupSecondOption(R.drawable.pen);
+
         }
+    }
+
+    @Override
+    public void hideSecondOption() {
+        super.hideSecondOption();
+
+        if (categoryFragment.isEditable()) {
+            viewPager.setPagingEnabled(false);
+            findViewById(R.id.tabDisabler).setOnTouchListener((v, d) -> true);
+        } else {
+            viewPager.setPagingEnabled(true);
+            findViewById(R.id.tabDisabler).setOnTouchListener((v, d) -> false);
+        }
+    }
+
+    @Override
+    public void showSecondOption() {
+        super.showSecondOption();
+        viewPager.setPagingEnabled(true);
+        findViewById(R.id.tabDisabler).setOnTouchListener((v,d)->false);
     }
 
     @Override
@@ -121,5 +177,6 @@ public class SpendingActivity extends BaseActivity {
 
     public void updateCategoriesList() {
         categoryFragment.setAdapter(DataBase.getInstance().getFamily().getCategories());
+        categoryFragment.setEditable();
     }
 }

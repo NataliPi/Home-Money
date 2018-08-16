@@ -47,9 +47,9 @@ public class BasePresenter<ViewType extends BaseActivity> {
             public void onError(Throwable e) {
                 if (isShowLoading) {
                     onCallError();
-                } else {
-                    Log.e("Presenter", e.getMessage());
                 }
+                    Log.e("Presenter", e.getMessage());
+
             }
 
             @Override

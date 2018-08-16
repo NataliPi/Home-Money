@@ -31,9 +31,15 @@ public interface BaseAPI {
 
     @GET("/rest/category/add/{familyId}/{categoryId}/{name}/")
     Observable<Message> addCategory(@Path("familyId") String familyId, @Path("categoryId") String categoryId, @Path("name") String name);
+///rest/category/update/{familyId}/{categoryId}/{name}
+    @POST("/rest/category/update/{familyId}/{categoryId}/{name}")
+    Observable<Message> updateCategory(@Body Message message,@Path("familyId") String familyId, @Path("categoryId") String categoryId, @Path("name") String name);
 
-    @POST("/rest/spending/add/")
-    Observable<Message> setSpending(@Body Spending spending);
+    @GET("/rest/category/hide/{familyId}/{categoryId}")
+    Observable<Message> hideCategory(@Path("familyId") String familyId, @Path("categoryId") String categoryId);
+
+    @POST("/rest/spending/add/{purpose}")
+    Observable<Message> setSpending(@Path("purpose") PURPOSE purpose, @Body Spending spending);
 
 
     @POST("/rest/picture/upload/{id}")

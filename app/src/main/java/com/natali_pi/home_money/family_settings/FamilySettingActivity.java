@@ -14,6 +14,7 @@ import com.natali_pi.home_money.login.LoginActivity;
 import com.natali_pi.home_money.main.MainActivity;
 import com.natali_pi.home_money.models.Message;
 import com.natali_pi.home_money.utils.OneButtonDialog;
+import com.natali_pi.home_money.utils.PURPOSE;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
@@ -79,6 +80,7 @@ public class FamilySettingActivity extends DraweredActivity {
 
     public void toMainActivity() {
         Intent intent = new Intent (FamilySettingActivity.this, MainActivity.class);
+        intent.putExtra(MainActivity.TAG_PURPOSE, PURPOSE.SPENDED.ordinal());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

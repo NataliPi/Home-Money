@@ -42,8 +42,18 @@ public class Api implements BaseAPI {
     }
 
     @Override
-    public Observable<Message> setSpending(Spending spending) {
-        return api.setSpending(spending).compose(new AsyncTransformer<>());
+    public Observable<Message> updateCategory(Message message, String familyId, String categoryId, String name) {
+        return api.updateCategory(message, familyId,categoryId,name).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> hideCategory(String familyId, String categoryId) {
+        return api.hideCategory(familyId,categoryId).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> setSpending(PURPOSE purpose, Spending spending) {
+        return api.setSpending(purpose, spending).compose(new AsyncTransformer<>());
     }
 
     @Override

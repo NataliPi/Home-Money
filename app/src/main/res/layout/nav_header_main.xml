@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     >
 <LinearLayout
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/side_nav_bar"
@@ -21,8 +22,8 @@
     android:background="@drawable/background">
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="@dimen/header_photo_size"
+        android:layout_height="@dimen/header_photo_size"
 
         android:src="@drawable/icon"/>
 </LinearLayout>

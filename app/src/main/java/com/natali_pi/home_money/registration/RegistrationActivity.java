@@ -16,6 +16,7 @@ import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.main.MainActivity;
 import com.natali_pi.home_money.models.Human;
 import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
 
 public class RegistrationActivity extends BaseActivity {
     RegistrationPresenter presenter;
@@ -77,6 +78,7 @@ public class RegistrationActivity extends BaseActivity {
     public void toMainActivity() {
     Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(MainActivity.TAG_PURPOSE, PURPOSE.SPENDED.ordinal());
     startActivity(intent);
 }
 

@@ -87,9 +87,9 @@ public class CategoryAdapter extends BaseAdapter {
                 holder.setBackgroundResource(R.color.yellow);
                 listener.choosen(categories.get(position));
             });
-            if(id != null && categories.get(position).getId().equals(id)){
+            if (id != null && categories.get(position).getId().equals(id)) {
                 holder.setBackgroundResource(R.color.yellow);
-                        listener.choosen(categories.get(position));
+                listener.choosen(categories.get(position));
             }
         } else {
             text.setText(R.string.add);
@@ -109,12 +109,13 @@ public class CategoryAdapter extends BaseAdapter {
             holder.setBackgroundResource(R.color.white);
         }
     }
+
     private String id;
-public void setCategory(String id){
+
+    public void setCategory(String id) {
         this.id = id;
+    }
 
-
-}
     public interface OnChooseListener {
         void choosen(Category category);
     }
