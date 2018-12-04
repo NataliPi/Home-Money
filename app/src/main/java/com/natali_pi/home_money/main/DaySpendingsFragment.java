@@ -16,6 +16,7 @@ import com.natali_pi.home_money.models.Spending;
 import com.natali_pi.home_money.spended.SpendedActivity;
 import com.natali_pi.home_money.utils.DataBase;
 import com.natali_pi.home_money.utils.PURPOSE;
+import com.natali_pi.home_money.utils.views.ViewDecorator;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -85,13 +86,15 @@ public class DaySpendingsFragment extends BaseFragment {
     @Override
     protected View onCreateView(View root) {
         dateText = (TextView) root.findViewById(R.id.dateText);
-        if(spendings != null)
+        if(spendings == null){
+            return root;
+        }
         dateText.setText(spendings.get(0).getSpendingMonthText());
         LinearLayout layout = (LinearLayout) root.findViewById(R.id.dayLayout);
-        LinearLayout line = new LinearLayout(getActivity());
+        /*LinearLayout line = new LinearLayout(getActivity());
 
         line.setOrientation(LinearLayout.HORIZONTAL);
-        layout.addView(line);
+        layout.addView(line);*/
 
         List<Spending> large = getSpendings(SIZE._2X2);
         List<Spending> medium = getSpendings(SIZE._2X1);
@@ -111,7 +114,29 @@ public class DaySpendingsFragment extends BaseFragment {
                 large = null;
             }
         }
-        boolean largeLineFinished = true;
+
+        ViewDecorator nextDecorator = new ViewDecorator(getActivity(), layout);
+
+        if (large != null){
+            for (int i = 0; i < large.size(); i++) {
+                nextDecorator = new ViewDecorator(nextDecorator, SIZE._2X2);
+                prepareSpendingView(large.get(i), nextDecorator.getSize(), nextDecorator.getView());
+            }
+        }
+        if (medium != null){
+            for (int i = 0; i < medium.size(); i++) {
+                nextDecorator = new ViewDecorator(nextDecorator, SIZE._2X1);
+                prepareSpendingView(medium.get(i), nextDecorator.getSize(), nextDecorator.getView());
+            }
+        }
+        if (small != null){
+            for (int i = 0; i < small.size(); i++) {
+                nextDecorator = new ViewDecorator(nextDecorator, SIZE._1X1);
+                prepareSpendingView(small.get(i), nextDecorator.getSize(), nextDecorator.getView());
+            }
+        }
+
+        /*boolean largeLineFinished = true;
         if (large != null) {
             for (int i = 0; i < large.size(); i++) {
 
@@ -209,13 +234,11 @@ public class DaySpendingsFragment extends BaseFragment {
                 line.addView(prepareSpendingView(small.get(i), SIZE._1X1));
             }
         }
-
+*/
         return root;
     }
 
-    private SIZE randomizeSize() {
-        return Math.random() >= 0.5d ? SIZE._2X1 : SIZE._1X2;
-    }
+
 
 
     private List<Spending> getSpendings(SIZE size) {
@@ -240,7 +263,7 @@ public class DaySpendingsFragment extends BaseFragment {
             }
         } else if (size == SIZE._2X1 || size == SIZE._1X2) {
             for (Spending spending : spendings) {
-                if (spending.getSum().lessThen(highThreshold)
+                if (spending.getSum().lessOrEqualsThen(highThreshold)
                         && lowThreshold.lessThen(spending.getSum())) {
                     if (result == null) {
                         result = new ArrayList<>();
@@ -251,7 +274,7 @@ public class DaySpendingsFragment extends BaseFragment {
             }
         } else if (size == SIZE._1X1) {
             for (Spending spending : spendings) {
-                if (spending.getSum().lessThen(lowThreshold)) {
+                if (spending.getSum().lessOrEqualsThen(lowThreshold)) {
                     if (result == null) {
                         result = new ArrayList<>();
                     }
@@ -261,6 +284,44 @@ public class DaySpendingsFragment extends BaseFragment {
             }
         }
         return result;
+    }
+
+    private void prepareSpendingView(Spending spending, SIZE size, View view) {
+
+
+        ImageView imageView = view.findViewById(R.id.image);
+        TextView name = (TextView) view.findViewById(R.id.name);
+        name.setText(spending.getName());
+
+        if (spending.getPhoto() != null) {
+            Picasso.with(getActivity()).load(spending.getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        } else {
+            Picasso.with(getActivity()).load(DataBase.getInstance().getCategoryById(spending.getCategory()).getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        }
+
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        view.setOnClickListener((v) -> {
+            Intent intent = new Intent(getActivity(), SpendedActivity.class);
+            intent.putExtra(MainActivity.TAG_PURPOSE, purpose.ordinal());
+            intent.putExtra(DATA, spending.getId());
+            startActivity(intent);
+        });
+        switch (size) {
+            case _2X2:
+                view.setLayoutParams(getLayoutParams2x2());
+                break;
+            case _1X1:
+                view.setLayoutParams(getLayoutParams1x1());
+                break;
+            case _1X2:
+                view.setLayoutParams(getLayoutParams1x2());
+                break;
+            case _2X1:
+                view.setLayoutParams(getLayoutParams2x1());
+                break;
+        }
+
     }
 
     private View prepareSpendingView(Spending spending, SIZE size) {
@@ -352,22 +413,15 @@ public class DaySpendingsFragment extends BaseFragment {
         return (int) ((((float) getScreenWidth()) / 4.0f) - getMargin());
     }
 
-    enum SIZE {
+    public enum SIZE {
         _1X1,
         _2X2,
-        _2X1,
-        _1X2;
+        _2X1, // 2 клетки в ширину 1 клетка в высоту
+        _1X2; // 1 клетка в ширину 2 клетки в высоту
+
 
     }
 
-    enum VARIANTS {
-        EMPTY,
-        HAS_FIRST_HORIZONTAL,
-        HAS_FIRST_VERTICAL,
-        HAS_HALF,
-        HAS_THIRD_HORIZONTAL,
-        HAS_THIRD_VERTICAL,
-    }
 
 
 }

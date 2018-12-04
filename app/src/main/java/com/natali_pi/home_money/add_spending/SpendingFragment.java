@@ -58,9 +58,12 @@ public class SpendingFragment extends BaseFragment {
                     .setOnPickResult(new IPickResult() {
                         @Override
                         public void onPickResult(PickResult result) {
+
                             Bitmap bitmap = result.getBitmap();
-                            presenter.setSpendingPicture(bitmap);
-                            spendPhoto.setImageBitmap(new CropCircleTransformation().transform(bitmap.copy(null, false)));
+                            if (bitmap != null) {
+                                presenter.setSpendingPicture(bitmap);
+                                spendPhoto.setImageBitmap(new CropCircleTransformation().transform(bitmap.copy(null, false)));
+                            }
 
                         }
                     }).show(getBaseActivity());

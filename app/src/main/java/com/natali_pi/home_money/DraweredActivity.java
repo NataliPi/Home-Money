@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,8 +64,12 @@ public abstract class DraweredActivity extends BaseActivity {
                         .setOnPickResult(new IPickResult() {
                             @Override
                             public void onPickResult(PickResult result) {
-                                imageView.setImageBitmap(new CropCircleTransformation().transform(result.getBitmap().copy(null, false)));
-                                onBitmapLoaded(TAG.AVATAR, result.getBitmap());
+                                Bitmap bitmap = result.getBitmap();
+                                Log.d("photo", result.getPath());
+                                if (bitmap != null) {
+                                    imageView.setImageBitmap(new CropCircleTransformation().transform(bitmap.copy(Bitmap.Config.ARGB_8888, false)));
+                                    onBitmapLoaded(TAG.AVATAR, bitmap);
+                                }
                             }
                         }).show(DraweredActivity.this);
             }
@@ -150,6 +155,7 @@ public abstract class DraweredActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

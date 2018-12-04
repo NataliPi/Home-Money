@@ -107,6 +107,18 @@ private void parse(float value){
         if (this.bill<limit.bill) {
             return true;
         } else {
+            if (this.bill==limit.bill && this.coins<limit.coins){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public Boolean lessOrEqualsThen(Money limit){
+        if (this.bill < limit.bill) {
+            return true;
+        } else {
             if (this.bill==limit.bill && this.coins<=limit.coins){
                 return true;
             } else {
