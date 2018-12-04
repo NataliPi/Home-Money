@@ -77,13 +77,20 @@ public class CategoryAdapter extends BaseAdapter {
                             }
                         }).show(presenter.getView());
             });
-
-            text.setText(categories.get(position).getName());
+            if (categories.get(position).isStandard()) {
+                text.setText(presenter.getStringResourceByName(categories.get(position).getName()));
+            } else {
+                text.setText(categories.get(position).getName());
+            }
             holder.setOnClickListener((v) -> {
                 clearBackgrounds();
                 holder.setBackgroundResource(R.color.yellow);
                 listener.choosen(categories.get(position));
             });
+            if (id != null && categories.get(position).getId().equals(id)) {
+                holder.setBackgroundResource(R.color.yellow);
+                listener.choosen(categories.get(position));
+            }
         } else {
             text.setText(R.string.add);
             icon.setImageResource(R.drawable.plus);
@@ -101,6 +108,12 @@ public class CategoryAdapter extends BaseAdapter {
         for (RelativeLayout holder : holders) {
             holder.setBackgroundResource(R.color.white);
         }
+    }
+
+    private String id;
+
+    public void setCategory(String id) {
+        this.id = id;
     }
 
     public interface OnChooseListener {

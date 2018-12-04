@@ -2,32 +2,16 @@ package com.natali_pi.home_money.budget;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.natali_pi.home_money.BaseActivity;
 import com.natali_pi.home_money.DraweredActivity;
 import com.natali_pi.home_money.R;
-import com.natali_pi.home_money.add_spending.AddSpendingActivity;
-import com.natali_pi.home_money.add_spending.CategoryFragment;
-import com.natali_pi.home_money.add_spending.SpendingFragment;
-import com.natali_pi.home_money.family_settings.FamilySettingActivity;
-import com.natali_pi.home_money.main.MainActivity;
-import com.natali_pi.home_money.planned_spending.PlannedSpendingActivity;
-import com.natali_pi.home_money.search.Search;
-import com.natali_pi.home_money.settings.SettingActivity;
-import com.natali_pi.home_money.statistic.StatisticActivity;
-import com.vansuita.pickimage.bean.PickResult;
-import com.vansuita.pickimage.dialog.PickImageDialog;
-import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +32,8 @@ public class BudgetActivity extends DraweredActivity {
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        setTabLayout(0,getString(R.string.chooseCategory));
-        setTabLayout(1,getString(R.string.baseData));
+        setTabLayout(0,getString(R.string.may_budget));
+        setTabLayout(1,getString(R.string.family_budget));
 
     }
 

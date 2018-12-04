@@ -16,6 +16,7 @@ import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.main.MainActivity;
 import com.natali_pi.home_money.models.Human;
 import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
 
 public class RegistrationActivity extends BaseActivity {
     RegistrationPresenter presenter;
@@ -45,7 +46,9 @@ public class RegistrationActivity extends BaseActivity {
         EditText password = (EditText) findViewById(R.id.password);
         EditText repeatPassword = (EditText) findViewById(R.id.repeatPassword);
         EditText name = (EditText) findViewById(R.id.name);
+        EditText surname = (EditText) findViewById(R.id.surname);
         EditText email = (EditText) findViewById(R.id.email);
+
 
         //* //TODO COMMENT THIS LINES
            name.setText("Константин");
@@ -62,6 +65,7 @@ public class RegistrationActivity extends BaseActivity {
                     human.setPassword(password.getText().toString());
                     human.setName(name.getText().toString());
                     human.setEmail(email.getText().toString());
+                    human.setFamilyName(surname.getText().toString());
                     presenter.register(human);
                 } else {
                     showMessage("Введенные пароли не совпадают");
@@ -73,6 +77,8 @@ public class RegistrationActivity extends BaseActivity {
 
     public void toMainActivity() {
     Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(MainActivity.TAG_PURPOSE, PURPOSE.SPENDED.ordinal());
     startActivity(intent);
 }
 

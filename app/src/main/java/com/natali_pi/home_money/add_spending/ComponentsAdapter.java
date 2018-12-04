@@ -1,20 +1,26 @@
 package com.natali_pi.home_money.add_spending;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.natali_pi.home_money.BaseAdapter;
 import com.natali_pi.home_money.R;
+import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.SpendingComponent;
 import com.natali_pi.home_money.utils.Currency;
+import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.SwipeableViewHolder;
 import com.natali_pi.home_money.utils.TextPickerDialog;
+import com.natali_pi.home_money.utils.views.DropdownView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,91 +29,147 @@ import java.util.List;
  * Created by Natali-Pi on 22.11.2017.
  */
 
-public class ComponentsAdapter extends BaseAdapter {
-    List<SpendingComponent> components = new ArrayList<>();
-    Context context;
-    TextPickerDialog dialog = null;
-    public ComponentsAdapter(List<SpendingComponent> components, Context context) {
-        if(components != null) {
-            this.components.addAll(components);
+public class ComponentsAdapter extends BaseAdapter<SpendingComponent> {
+
+    private boolean isChangable;
+    private TextPickerDialog dialog = null;
+
+    public ComponentsAdapter(List<SpendingComponent> components, boolean isChangable) {
+        super(components);
+        this.isChangable = isChangable;
+    }
+
+
+    private OnSummChangedListener summListener;
+
+    public void setSummListener(OnSummChangedListener summListener) {
+        this.summListener = summListener;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        return new ViewHolder(parent);
+    }
+
+    @Override
+    protected void onItemSwiped(SwipeableViewHolder viewHolder) {
+
+    }
+
+    @Override
+    protected void onItemNormal(SwipeableViewHolder viewHolder, final int position) {
+        ViewHolder vh = (ViewHolder)viewHolder;
+        vh.currency.setItems(Currency.getAsList());
+        vh.currency.setDefaultFirst(DataBase.getInstance().getCurrentCurrency());
+        vh.spendedName.setText(getItems().get(position).getName());
+        vh.price.setText(getItems().get(position).getPrice().toString());
+        if(isChangable) {
+            vh.spendedName.addTextChangedListener(new ComponentNameWatcher(position) {
+                @Override
+                public void onTextChanged(CharSequence charSequence, int start , int i1, int i2) {
+                    if(getPosition() >= getItems().size()){
+                        return;
+                    }
+                    getItems().get(getPosition()).setName("" + charSequence);
+
+                }
+            });
+
+
+            vh.price.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(position >= getItems().size()){
+                        return;
+                    }
+                    getItems().get(position).setPrice(new Money(vh.price.getText().toString(),vh.currency.getData()));
+                    summListener.onSummChanged(getSumm());
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+        } else {
+            vh.spendedName.setEnabled(false);
+            vh.price.setEnabled(false);
+            vh.currency.setEnabled(false);
         }
-        this.context = context;
+
+
     }
 
     @Override
-    public int getCount() {
-        return this.components.size();
+    protected void onItemDeleted(SpendingComponent item) {
+
     }
 
-    @Override
-    public Object getItem(int position) {
-        return this.components.get(position);
+    interface OnSummChangedListener {
+        void onSummChanged(Money summ);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_component, null);
+    private Money getSumm() {
+        Money summ = new Money(0.0f);
+        for (SpendingComponent component : getItems()) {
+            summ = Money.sum(summ, component.getPrice());
         }
-
-        EditText spendedName = (EditText) view.findViewById(R.id.spendedName);
-        spendedName.setText(components.get(position).getName());
-        EditText price = (EditText) view.findViewById(R.id.price);
-        price.setText(components.get(position).getPrice().toString());
-        TextView currency = (TextView) view.findViewById(R.id.currency);
-        currency.setText(components.get(position).getPrice().getCurrency().toString());
-        currency.setOnClickListener((v)->{
-            dialog = new TextPickerDialog(context, "Выберите валюту",0, Currency.getAsList())
-                    .setOnDoneListener((result)->{
-                currency.setText(dialog.getInnerResultString(result));
-                        components.get(position).getPrice().setCurrency(dialog.getInnerResultString(result));
-            }).showMe();
-        });
-        spendedName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                components.get(position).setName(""+charSequence);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        price.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                components.get(position).setPrice(price.getText().toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        return view;
+        return summ;
     }
 
-    public List<SpendingComponent> getComponents() {
-        return components;
-    }
-    public void addSpendingComponent(){
-        components.add(new SpendingComponent());
+
+    public void addSpendingComponent(View root) {
+        getItems().add(new SpendingComponent());
         notifyDataSetChanged();
+        super.hideKeyboard(root);
+    }
+    static class ViewHolder extends SwipeableViewHolder {
+        public ViewHolder(ViewGroup parent) {
+            super(parent);
+        }
+
+        EditText spendedName;
+        EditText price;
+        DropdownView currency;
+
+        @Override
+        public View prepareMainView() {
+            View view = inflate(R.layout.item_component);
+            spendedName  = (EditText) view.findViewById(R.id.spendedName);
+            price = (EditText) view.findViewById(R.id.price);
+            currency = view.findViewById(R.id.currency);
+            return view;
+        }
+    }
+    abstract class ComponentNameWatcher implements TextWatcher{
+        int position;
+
+        public ComponentNameWatcher(int position) {
+            this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public abstract void onTextChanged(CharSequence s, int start, int before, int count);
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 }

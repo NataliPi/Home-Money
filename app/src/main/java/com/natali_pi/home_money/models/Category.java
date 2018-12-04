@@ -10,11 +10,14 @@ public class Category {
     private String id;
     private String photo;
     private String name;
+    private boolean isHiden;
 
     public Category(String filliner) {
         this.name = filliner;
     }
-
+public boolean isStandard(){
+        return id.equals(name);
+}
     public void setPhoto(String photo) {
         this.photo = photo;
     }
@@ -34,8 +37,25 @@ public class Category {
             return null;
         }
     }
+    public String getRawPhoto() {
+
+            return photo;
+
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isHiden() {
+        return isHiden;
+    }
+
+    public void setHiden(boolean hiden) {
+        isHiden = hiden;
     }
 }

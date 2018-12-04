@@ -2,11 +2,13 @@ package com.natali_pi.home_money.models;
 
 import com.natali_pi.home_money.utils.Currency;
 
+import java.io.Serializable;
+
 /**
  * Created by Natali-Pi on 21.11.2017.
  */
 
-public class SpendingComponent {
+public class SpendingComponent implements Serializable {
     private String name = "";
     private Money price = new Money();
 

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.natali_pi.home_money">
+    package="com.natali_pi.home_money"
+    android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -37,7 +42,7 @@
             android:name=".main.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".add_spending.AddSpendingActivity" />
+        <activity android:name=".add_spending.SpendingActivity" />
         <activity android:name=".spended.SpendedActivity" />
         <activity android:name=".settings.SettingActivity" />
         <activity android:name=".search.Search" />
@@ -48,6 +53,15 @@
         <activity android:name=".statistic.StatisticActivity"/>
         <activity android:name=".family_settings.GenerateQRActivity"/>
         <activity android:name=".family_settings.DecoderActivity"/>
+
+        <service android:name=".utils.auth.Service" android:exported="false">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
     </application>
 
 </manifest>

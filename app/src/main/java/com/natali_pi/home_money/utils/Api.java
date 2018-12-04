@@ -42,8 +42,18 @@ public class Api implements BaseAPI {
     }
 
     @Override
-    public Observable<Message> setSpending(Spending spending) {
-        return api.setSpending(spending).compose(new AsyncTransformer<>());
+    public Observable<Message> updateCategory(Message message, String familyId, String categoryId, String name) {
+        return api.updateCategory(message, familyId,categoryId,name).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> hideCategory(String familyId, String categoryId) {
+        return api.hideCategory(familyId,categoryId).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> setSpending(PURPOSE purpose, Spending spending) {
+        return api.setSpending(purpose, spending).compose(new AsyncTransformer<>());
     }
 
     @Override
@@ -54,6 +64,21 @@ public class Api implements BaseAPI {
     @Override
     public Observable<Message> uploadPicture(Message message, String familyId, String id) {
         return api.uploadPicture(message, familyId, id).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> updateProfile(Human data) {
+        return api.updateProfile(data).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> prepareInvitation(String familyId) {
+        return api.prepareInvitation(familyId).compose(new AsyncTransformer<>());
+    }
+
+    @Override
+    public Observable<Message> acceptInvitation(String familyId, String humanId, String password) {
+        return api.acceptInvitation(familyId, humanId, password).compose(new AsyncTransformer<>());
     }
 
 

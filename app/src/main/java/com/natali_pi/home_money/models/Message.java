@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
  */
 
 public class Message {
+    private static final String FAILURE = "failure";
+    private static final String SUCCESS = "success";
 String result;
 
     public String getResult() {
@@ -30,6 +32,12 @@ String result;
             photoBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
         }
         this.result = photoBase64;
+    }
+    public boolean isSuccess(){
+        return result!= null && result.equals(SUCCESS);
+    }
+    public boolean isFailure(){
+        return result== null || result.equals(FAILURE);
     }
 }
 

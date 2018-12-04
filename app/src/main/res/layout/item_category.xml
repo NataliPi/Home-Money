@@ -13,8 +13,10 @@
         android:id="@+id/icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:scaleType="centerCrop"
         android:layout_marginLeft="16dp"
-        android:src="@drawable/health"/>
+        android:src="@drawable/health"
+        />
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
@@ -22,20 +24,32 @@
         android:text="@string/health"
         android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/ok"
+        android:layout_toLeftOf="@+id/edit"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="@dimen/text_medium"
         android:textColor="@color/darkViolet"
         android:layout_toRightOf="@+id/icon"/>
 
     <ImageView
-        android:id="@+id/ok"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ok"
-        android:visibility="invisible"
+        android:id="@+id/edit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:src="@drawable/pen"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/delete"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:src="@drawable/delete"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         />
 </RelativeLayout>
 </LinearLayout>

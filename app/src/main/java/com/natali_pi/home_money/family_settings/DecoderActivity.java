@@ -7,8 +7,6 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.widget.TextView;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.natali_pi.home_money.R;
@@ -18,8 +16,7 @@ import com.natali_pi.home_money.R;
  */
 
 public class DecoderActivity extends Activity implements QRCodeReaderView.OnQRCodeReadListener {
-
-    private TextView resultTextView;
+    SettingsPresenter presenter = SettingsPresenter.getInstance();
     private QRCodeReaderView qrCodeReaderView;
 
     @Override
@@ -49,46 +46,49 @@ public class DecoderActivity extends Activity implements QRCodeReaderView.OnQRCo
             setupQrReader();
         }
     }
-private void setupQrReader(){
-    qrCodeReaderView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
-    qrCodeReaderView.setOnQRCodeReadListener(this);
 
-    resultTextView = (TextView) findViewById(R.id.resultTextView);
-
-    // Use this function to enable/disable decoding
-    qrCodeReaderView.setQRDecodingEnabled(true);
-
-    // Use this function to change the autofocus interval (default is 5 secs)
-    qrCodeReaderView.setAutofocusInterval(2000L);
-
-    // Use this function to enable/disable Torch
-    qrCodeReaderView.setTorchEnabled(true);
+    private void setupQrReader() {
+        qrCodeReaderView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
+        qrCodeReaderView.setOnQRCodeReadListener(this);
 
 
-    // Use this function to set back camera preview
-    qrCodeReaderView.setBackCamera();
-}
+        // Use this function to enable/disable decoding
+        qrCodeReaderView.setQRDecodingEnabled(true);
+
+        // Use this function to change the autofocus interval (default is 5 secs)
+        qrCodeReaderView.setAutofocusInterval(2000L);
+
+        // Use this function to enable/disable Torch
+        qrCodeReaderView.setTorchEnabled(true);
+
+
+        // Use this function to set back camera preview
+        qrCodeReaderView.setBackCamera();
+    }
+
     // Called when a QR is decoded
     // "text" : the text encoded in QR
     // "points" : points where QR control points are placed in View
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        resultTextView.setText(text);
+        presenter.acceptInvitation(text);
+        finish();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-if(qrCodeReaderView != null) {
-    qrCodeReaderView.startCamera();
-}
+        if (qrCodeReaderView != null) {
+            qrCodeReaderView.startCamera();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-if(qrCodeReaderView != null) {
-    qrCodeReaderView.stopCamera();
-}
-}
+        if (qrCodeReaderView != null) {
+            qrCodeReaderView.stopCamera();
+        }
+    }
 }

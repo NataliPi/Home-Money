@@ -21,6 +21,10 @@ import com.natali_pi.home_money.R;
 
 public class OneButtonDialog extends AlertDialog.Builder {
     public static final int DEFAULT = -1;
+    protected static final String TAG_TITLE = "tt";
+    protected static final String TAG_TEXT_VIEW = "tv";
+    protected static final String TAG_EDIT_TEXT = "et";
+
 
     private static OneButtonDialog lastDialog;
     private static Typeface typeface = null;
@@ -36,7 +40,7 @@ public class OneButtonDialog extends AlertDialog.Builder {
     private String editTextHint = null;
     private String positiveButtonText = "OK";
     private int inputType = DEFAULT;
-
+    protected LinearLayout layout;
     private OKListener okListener = null;
 
     /**
@@ -215,7 +219,7 @@ public class OneButtonDialog extends AlertDialog.Builder {
      * @return
      */
     public OneButtonDialog build() {
-        LinearLayout layout = new LinearLayout(getContext());
+        layout = new LinearLayout(getContext());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -227,6 +231,7 @@ public class OneButtonDialog extends AlertDialog.Builder {
             titleView.setText(title);
             titleView.setTypeface(null, Typeface.BOLD);
             layout.addView(titleView);
+            titleView.setTag(TAG_TITLE);
           if(!isDefault(customTitleStyle)){
               configureStyle(titleView, customTitleStyle);
           }
@@ -234,7 +239,7 @@ public class OneButtonDialog extends AlertDialog.Builder {
 
 
         final EditText input = new EditText(getContext());
-
+input.setTag(TAG_EDIT_TEXT);
         if (dialogType == DIALOG_TYPE.MESSAGE_ONLY) {
                 if (!isDefault(message)) {
                 TextView textView = new TextView(getContext());
@@ -244,6 +249,7 @@ textView.setPadding(0,(int) getContext().getResources().getDimension(R.dimen.sta
                 //textView.setGravity(Gravity.CENTER_HORIZONTAL);
                 configureStyle(textView);
 layout.addView(textView);
+textView.setTag(TAG_TEXT_VIEW);
             //    setMessage(Html.fromHtml(message)); // TODO: check android versions
             }
         } else {
@@ -269,7 +275,7 @@ layout.addView(textView);
 
 
                 TextView textView = new TextView(getContext());
-
+                textView.setTag(TAG_TEXT_VIEW);
                 textView.setLayoutParams(lp);
                 textView.setText(Html.fromHtml(message));
                 //textView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -294,11 +300,7 @@ layout.addView(textView);
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (okListener != null) {
-                    if (dialogType != DIALOG_TYPE.MESSAGE_ONLY) {
-                        okListener.onOKpressed(!isDefault(input.getText().toString()) ? input.getText().toString() : "");
-                    } else {
-                        okListener.onOKpressed("");
-                    }
+                    okListener.onOKpressed(getData(input));
                 }
                 lastDialog = null;
                 dialog.dismiss();
@@ -308,7 +310,13 @@ layout.addView(textView);
         super.show();
         return this;
     }
-
+protected String getData(EditText input){
+    if (dialogType != DIALOG_TYPE.MESSAGE_ONLY) {
+        return !isDefault(input.getText().toString()) ? input.getText().toString() : "";
+    } else {
+        return "";
+    }
+}
     private void configureStyle(TextView view) {
         if (customTypeface != null) {
             view.setTypeface(customTypeface);

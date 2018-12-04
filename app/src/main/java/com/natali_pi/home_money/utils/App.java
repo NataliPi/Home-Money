@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class App extends Application {
-public static final String BASE_URL = "http://78.26.206.78/";
+public static final String BASE_URL = "http://78.26.206.78/FamilyBudgetRest/";
 public static final String PICTURE_URL = "rest/picture/";
     private static BaseAPI api;
 
@@ -38,6 +38,7 @@ public static final String PICTURE_URL = "rest/picture/";
                 .build();
         api = retrofit.create(BaseAPI.class); //Создаем объект, при помощи которого будем выполнять запросы
     }
+
     public static BaseAPI getBaseApi() {
         return api;
     }

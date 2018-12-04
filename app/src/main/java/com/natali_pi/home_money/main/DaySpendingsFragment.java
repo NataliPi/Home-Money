@@ -1,27 +1,49 @@
 package com.natali_pi.home_money.main;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.natali_pi.home_money.BaseFragment;
 import com.natali_pi.home_money.R;
 import com.natali_pi.home_money.models.Money;
 import com.natali_pi.home_money.models.Spending;
+import com.natali_pi.home_money.spended.SpendedActivity;
+import com.natali_pi.home_money.utils.DataBase;
+import com.natali_pi.home_money.utils.PURPOSE;
+import com.natali_pi.home_money.utils.views.ViewDecorator;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.natali_pi.home_money.BaseActivity.DATA;
 
 /**
  * Created by Natali-Pi on 10.12.2017.
  */
 
 public class DaySpendingsFragment extends BaseFragment {
-    int screenWidth = -1;
-    int margin = -1;
+    private int screenWidth = -1;
+    private int margin = -1;
+    private TextView dateText;
     private List<Spending> spendings;
+    private PURPOSE purpose;
+
+    public int getDatePosition() {
+        int[] pos = new int[2];
+        dateText.getLocationOnScreen(pos);
+        return pos[1];
+    }
+
+    public String getMonth() {
+        return dateText.getText().toString();
+    }
 
     @Override
     protected void resolveDaggerDependencies() {
@@ -32,7 +54,8 @@ public class DaySpendingsFragment extends BaseFragment {
         return R.layout.fragment_day_spendings;
     }
 
-    public void setSpendings(List<Spending> spendings) {
+    public void setSpendings(PURPOSE purpose, List<Spending> spendings) {
+        this.purpose = purpose;
         this.spendings = spendings;
     }
 
@@ -62,11 +85,16 @@ public class DaySpendingsFragment extends BaseFragment {
 
     @Override
     protected View onCreateView(View root) {
+        dateText = (TextView) root.findViewById(R.id.dateText);
+        if(spendings == null){
+            return root;
+        }
+        dateText.setText(spendings.get(0).getSpendingMonthText());
         LinearLayout layout = (LinearLayout) root.findViewById(R.id.dayLayout);
-        LinearLayout line = new LinearLayout(getActivity());
+        /*LinearLayout line = new LinearLayout(getActivity());
 
         line.setOrientation(LinearLayout.HORIZONTAL);
-        layout.addView(line);
+        layout.addView(line);*/
 
         List<Spending> large = getSpendings(SIZE._2X2);
         List<Spending> medium = getSpendings(SIZE._2X1);
@@ -86,11 +114,33 @@ public class DaySpendingsFragment extends BaseFragment {
                 large = null;
             }
         }
-        boolean largeLineFinished = true;
+
+        ViewDecorator nextDecorator = new ViewDecorator(getActivity(), layout);
+
+        if (large != null){
+            for (int i = 0; i < large.size(); i++) {
+                nextDecorator = new ViewDecorator(nextDecorator, SIZE._2X2);
+                prepareSpendingView(large.get(i), nextDecorator.getSize(), nextDecorator.getView());
+            }
+        }
+        if (medium != null){
+            for (int i = 0; i < medium.size(); i++) {
+                nextDecorator = new ViewDecorator(nextDecorator, SIZE._2X1);
+                prepareSpendingView(medium.get(i), nextDecorator.getSize(), nextDecorator.getView());
+            }
+        }
+        if (small != null){
+            for (int i = 0; i < small.size(); i++) {
+                nextDecorator = new ViewDecorator(nextDecorator, SIZE._1X1);
+                prepareSpendingView(small.get(i), nextDecorator.getSize(), nextDecorator.getView());
+            }
+        }
+
+        /*boolean largeLineFinished = true;
         if (large != null) {
             for (int i = 0; i < large.size(); i++) {
 
-                line.addView(prepareSpendingView(SIZE._2X2));
+                line.addView(prepareSpendingView(large.get(i), SIZE._2X2));
                 if (i % 2 != 0) {
                     line = new LinearLayout(getActivity());
                     line.setOrientation(LinearLayout.HORIZONTAL);
@@ -135,10 +185,10 @@ public class DaySpendingsFragment extends BaseFragment {
                         lineHolder.addView(line);
                     }
 
-                    line.addView(prepareSpendingView(size));
+                    line.addView(prepareSpendingView(medium.get(i), size));
 
                 } else {
-                    line.addView(prepareSpendingView(size));
+                    line.addView(prepareSpendingView(medium.get(i), size));
 
                     size = randomizeSize();
                     if (!largeLineFinished) {
@@ -150,7 +200,7 @@ public class DaySpendingsFragment extends BaseFragment {
                     } else {
                         if (i != medium.size() - 1) {
                             line = new LinearLayout(getActivity());
-                            if(i == medium.size() - 2){
+                            if (i == medium.size() - 2) {
                                 line.setOrientation(LinearLayout.HORIZONTAL);
                                 size = SIZE._2X1;
                             } else {
@@ -181,22 +231,22 @@ public class DaySpendingsFragment extends BaseFragment {
                         largeLineFinished = true;
                     }
                 }
-                line.addView(prepareSpendingView(SIZE._1X1));
+                line.addView(prepareSpendingView(small.get(i), SIZE._1X1));
             }
         }
-
+*/
         return root;
     }
 
-    private SIZE randomizeSize() {
-        return Math.random() >= 0.5d ? SIZE._2X1 : SIZE._1X2;
-    }
+
 
 
     private List<Spending> getSpendings(SIZE size) {
 
         Spending largest = getLargest(this.spendings);
-
+        if (largest == null) {
+            return null;
+        }
         Money lowThreshold = largest.getSum().divideBy(3.0f);
         Money highThreshold = Money.substract(largest.getSum(), lowThreshold);
 
@@ -208,50 +258,109 @@ public class DaySpendingsFragment extends BaseFragment {
                         result = new ArrayList<>();
                     }
                     result.add(spending);
+
                 }
             }
         } else if (size == SIZE._2X1 || size == SIZE._1X2) {
             for (Spending spending : spendings) {
-                if (spending.getSum().lessThen(highThreshold)
+                if (spending.getSum().lessOrEqualsThen(highThreshold)
                         && lowThreshold.lessThen(spending.getSum())) {
                     if (result == null) {
                         result = new ArrayList<>();
                     }
                     result.add(spending);
+
                 }
             }
         } else if (size == SIZE._1X1) {
             for (Spending spending : spendings) {
-                if (spending.getSum().lessThen(lowThreshold)) {
+                if (spending.getSum().lessOrEqualsThen(lowThreshold)) {
                     if (result == null) {
                         result = new ArrayList<>();
                     }
                     result.add(spending);
+
                 }
             }
         }
         return result;
     }
 
-    private ImageView prepareSpendingView(SIZE size) {
-        ImageView imageView = new ImageView(getActivity());
-        imageView.setImageResource(R.drawable.health);
+    private void prepareSpendingView(Spending spending, SIZE size, View view) {
+
+
+        ImageView imageView = view.findViewById(R.id.image);
+        TextView name = (TextView) view.findViewById(R.id.name);
+        name.setText(spending.getName());
+
+        if (spending.getPhoto() != null) {
+            Picasso.with(getActivity()).load(spending.getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        } else {
+            Picasso.with(getActivity()).load(DataBase.getInstance().getCategoryById(spending.getCategory()).getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        }
+
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        view.setOnClickListener((v) -> {
+            Intent intent = new Intent(getActivity(), SpendedActivity.class);
+            intent.putExtra(MainActivity.TAG_PURPOSE, purpose.ordinal());
+            intent.putExtra(DATA, spending.getId());
+            startActivity(intent);
+        });
         switch (size) {
             case _2X2:
-                imageView.setLayoutParams(getLayoutParams2x2());
+                view.setLayoutParams(getLayoutParams2x2());
                 break;
             case _1X1:
-                imageView.setLayoutParams(getLayoutParams1x1());
+                view.setLayoutParams(getLayoutParams1x1());
                 break;
             case _1X2:
-                imageView.setLayoutParams(getLayoutParams1x2());
+                view.setLayoutParams(getLayoutParams1x2());
                 break;
             case _2X1:
-                imageView.setLayoutParams(getLayoutParams2x1());
+                view.setLayoutParams(getLayoutParams2x1());
                 break;
         }
-        return imageView;
+
+    }
+
+    private View prepareSpendingView(Spending spending, SIZE size) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.spending_item, null);
+
+        ImageView imageView = view.findViewById(R.id.image);
+        TextView name = (TextView) view.findViewById(R.id.name);
+        name.setText(spending.getName());
+
+        if (spending.getPhoto() != null) {
+            Picasso.with(getActivity()).load(spending.getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        } else {
+            Picasso.with(getActivity()).load(DataBase.getInstance().getCategoryById(spending.getCategory()).getPhoto()).placeholder(R.drawable.photo).into(imageView);
+        }
+
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        view.setOnClickListener((v) -> {
+            Intent intent = new Intent(getActivity(), SpendedActivity.class);
+            intent.putExtra(MainActivity.TAG_PURPOSE, purpose.ordinal());
+            intent.putExtra(DATA, spending.getId());
+            startActivity(intent);
+        });
+        switch (size) {
+            case _2X2:
+                view.setLayoutParams(getLayoutParams2x2());
+                break;
+            case _1X1:
+                view.setLayoutParams(getLayoutParams1x1());
+                break;
+            case _1X2:
+                view.setLayoutParams(getLayoutParams1x2());
+                break;
+            case _2X1:
+                view.setLayoutParams(getLayoutParams2x1());
+                break;
+        }
+
+        return view;
     }
 
     private int getScreenWidth() {
@@ -304,22 +413,15 @@ public class DaySpendingsFragment extends BaseFragment {
         return (int) ((((float) getScreenWidth()) / 4.0f) - getMargin());
     }
 
-    enum SIZE {
+    public enum SIZE {
         _1X1,
         _2X2,
-        _2X1,
-        _1X2;
+        _2X1, // 2 клетки в ширину 1 клетка в высоту
+        _1X2; // 1 клетка в ширину 2 клетки в высоту
+
 
     }
 
-    enum VARIANTS {
-        EMPTY,
-        HAS_FIRST_HORIZONTAL,
-        HAS_FIRST_VERTICAL,
-        HAS_HALF,
-        HAS_THIRD_HORIZONTAL,
-        HAS_THIRD_VERTICAL,
-    }
 
 
 }

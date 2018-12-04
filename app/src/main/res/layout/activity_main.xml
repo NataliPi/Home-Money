@@ -2,34 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <RelativeLayout
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/standard_margin">
+<TextView
+    android:id="@+id/noSpendingsMessage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:textSize="@dimen/text_big"
+    android:text="У вас пока нет затрат."/>
         <ScrollView
             android:id="@+id/scrollView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout
-    android:id="@+id/list"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/dateText1"
-        android:text="ОктябЫрь1"
-        style="@style/dateLabel" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <LinearLayout
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+        </ScrollView>
 
-</LinearLayout>
-</ScrollView>
         <TextView
-            android:id="@+id/dateLabel"
-            android:text="ОктябЫрь"
-            style="@style/dateLabel" />
+            android:id="@+id/dateText"
+            style="@style/dateLabel"
+            android:visibility="gone" />
 
     </RelativeLayout>
 </LinearLayout>
